@@ -7,7 +7,7 @@ import { Avatar, Hotels, Attractions, Restaurants } from '../assets';
 import MenuContainer from '../components/MenuContainer';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import ItemCardContainer from '../components/ItemCardContainer';
-import { getPlacesData } from './api';
+import { getPlacesData } from '../api';
 
 const Discover = () => {
 
@@ -155,6 +155,7 @@ const Discover = () => {
                                             }
                                             title={data?.name}
                                             location={data?.location_string}
+                                            data={data}
                                         />
                                    ))}
                                 </> 
