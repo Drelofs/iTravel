@@ -12,7 +12,12 @@ const Stack = createNativeStackNavigator();
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator>
+      <Stack.Navigator
+        screenOptions={{
+          animation: 'slide_from_right', // default on iOS
+          gestureDirection: 'horizontal', // ensure horizontal swipe works
+        }}
+      >
         <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen name="Discover" component={Discover} />
         <Stack.Screen name="ItemScreen" component={ItemScreen} />

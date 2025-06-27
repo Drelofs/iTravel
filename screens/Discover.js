@@ -149,9 +149,9 @@ const Discover = () => {
                                         <ItemCardContainer 
                                             key={i} 
                                             image={
-                                                data?.photo?.images?.medium?.url ?  
-                                                data?.photo?.images?.medium?.url :
-                                                "https://static.thenounproject.com/png/2932881-200.png"
+                                                data?.photo?.images?.medium?.url 
+                                                ? data?.photo?.images?.medium?.url 
+                                                : "https://static.thenounproject.com/png/2932881-200.png"
                                             }
                                             title={data?.name}
                                             location={data?.location_string}
