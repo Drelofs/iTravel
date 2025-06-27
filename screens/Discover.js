@@ -1,13 +1,17 @@
-import { View, Text, SafeAreaView, Image } from 'react-native'
-import React, { useLayoutEffect } from 'react'
+import { View, Text, SafeAreaView, Image, ScrollView, TouchableOpacity } from 'react-native'
+import React, { useLayoutEffect, useState } from 'react'
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete'
 import 'react-native-get-random-values';
 import { useNavigation } from '@react-navigation/native'
-import { Avatar } from '../assets';
+import { Avatar, Hotels, Attractions, Restaurants } from '../assets';
+import MenuContainer from '../components/MenuContainer';
+import FontAwesome from '@expo/vector-icons/FontAwesome';
 
 const Discover = () => {
 
     const navigation = useNavigation();
+
+    const [type, setType] = useState("restaurants")
 
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -83,6 +87,47 @@ const Discover = () => {
                     timeout={20000}
                 />
             </View>
+
+            {/* Menu container */}
+            <ScrollView>
+                <View className="flex-row items-center justify-between px-8 mt-8">
+                    <MenuContainer 
+                        key={"restaurants"}
+                        title="Restaurants"
+                        imageSrc= {Restaurants}
+                        type={type}
+                        setType={setType}
+                    />
+                    <MenuContainer 
+                        key={"hotels"}
+                        title="Hotels"
+                        imageSrc= {Hotels}
+                        type={type}
+                        setType={setType}
+                    />
+                    <MenuContainer 
+                        key={"attractions"}
+                        title="Attractions"
+                        imageSrc= {Attractions}
+                        type={type}
+                        setType={setType}
+                    />
+                </View>
+
+                <View>
+                    <View className="flex-row items center justify-between  px-4 mt-8">
+                        <Text className="text-[#2C7379] text-[28px] font-bold">Results</Text>
+                        <TouchableOpacity className="flex-row items-center justify-center gap-2">
+                            <Text className="text-[#A0C4C7] text-[20px] font-bold">Explore</Text>
+                            <FontAwesome name="long-arrow-right" size={24} color="#A0C4C7" />
+                        </TouchableOpacity>
+                    </View>
+
+                    <View className="px-4 mt-8 flew-row items-center justify-evenly flex-wrap">
+
+                    </View>
+                </View>
+            </ScrollView>
         </SafeAreaView>
     )
 }
