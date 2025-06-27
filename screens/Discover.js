@@ -1,4 +1,4 @@
-import { View, Text, SafeAreaView, Image, ScrollView, TouchableOpacity } from 'react-native'
+import { View, Text, SafeAreaView, Image, ScrollView, TouchableOpacity, ActivityIndicator } from 'react-native'
 import React, { useLayoutEffect, useState } from 'react'
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete'
 import 'react-native-get-random-values';
@@ -13,6 +13,8 @@ const Discover = () => {
     const navigation = useNavigation();
 
     const [type, setType] = useState("restaurants")
+    const [isLoading, setIsLoading] = useState(false);
+    const [mainData, setMainData] = useState([]);
 
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -90,46 +92,63 @@ const Discover = () => {
             </View>
 
             {/* Menu container */}
-            <ScrollView>
-                <View className="flex-row items-center justify-between px-8 mt-8">
-                    <MenuContainer 
-                        key={"restaurants"}
-                        title="Restaurants"
-                        imageSrc= {Restaurants}
-                        type={type}
-                        setType={setType}
-                    />
-                    <MenuContainer 
-                        key={"hotels"}
-                        title="Hotels"
-                        imageSrc= {Hotels}
-                        type={type}
-                        setType={setType}
-                    />
-                    <MenuContainer 
-                        key={"attractions"}
-                        title="Attractions"
-                        imageSrc= {Attractions}
-                        type={type}
-                        setType={setType}
-                    />
-                </View>
-
-                <View>
-                    <View className="flex-row items center justify-between  px-4 mt-8">
-                        <Text className="text-[#2C7379] text-[28px] font-bold">Results</Text>
-                        <TouchableOpacity className="flex-row items-center justify-center gap-2">
-                            <Text className="text-[#A0C4C7] text-[20px] font-bold">Explore</Text>
-                            <FontAwesome name="long-arrow-right" size={24} color="#A0C4C7" />
-                        </TouchableOpacity>
+            {isLoading ? (
+                <View className="flex-1 items-center justify-center">
+                    <ActivityIndicator size="large" color="#0B646B" />
+                </View> 
+            ) : ( 
+                <ScrollView>
+                    <View className="flex-row items-center justify-between px-8 mt-8">
+                        <MenuContainer 
+                            key={"restaurants"}
+                            title="Restaurants"
+                            imageSrc= {Restaurants}
+                            type={type}
+                            setType={setType}
+                        />
+                        <MenuContainer 
+                            key={"hotels"}
+                            title="Hotels"
+                            imageSrc= {Hotels}
+                            type={type}
+                            setType={setType}
+                        />
+                        <MenuContainer 
+                            key={"attractions"}
+                            title="Attractions"
+                            imageSrc= {Attractions}
+                            type={type}
+                            setType={setType}
+                        />
                     </View>
 
-                    <View className="px-4 mt-8 flex-row items-center justify-evenly flex-wrap w-full">
-                        <ItemCardContainer key={"101"} image={"https://i.regiogroei.cloud/75f9bac9-28d8-3ab8-8543-8fd48aad9ae0.jpg"} title="Madurodam" location="The Hague"/>
-                        <ItemCardContainer key={"102"} image={"https://top10bezienswaardigheden.nl/wp-content/uploads/2022/11/denhaag-binnenhof.jpeg"} title="Ridderzaal" location="The Hague"/>
+                    <View>
+                        <View className="flex-row items center justify-between  px-4 mt-8">
+                            <Text className="text-[#2C7379] text-[28px] font-bold">Results</Text>
+                            <TouchableOpacity className="flex-row items-center justify-center gap-2">
+                                <Text className="text-[#A0C4C7] text-[20px] font-bold">Explore</Text>
+                                <FontAwesome name="long-arrow-right" size={24} color="#A0C4C7" />
+                            </TouchableOpacity>
+                        </View>
+
+                        <View className="px-4 mt-8 flex-row items-center justify-evenly flex-wrap w-full">
+                            {mainData?.length > 0 ? (
+                                <>
+                                    <ItemCardContainer key={"101"} image={"https://i.regiogroei.cloud/75f9bac9-28d8-3ab8-8543-8fd48aad9ae0.jpg"} title="Madurodam" location="The Hague"/>
+                                    <ItemCardContainer key={"102"} image={"https://top10bezienswaardigheden.nl/wp-content/uploads/2022/11/denhaag-binnenhof.jpeg"} title="Ridderzaal" location="The Hague"/>
+                                </> 
+                            ) : (
+                                <>
+                                    <View className="w-full h-[200px] items-center gap-8 justify-center">
+                                        <Text className="text-2xl text-[#428288]">No Results found...</Text>
+                                    </View>
+                                </>
+                            )}
+                        </View>
                     </View>
-                </View>
-            </ScrollView>
+                </ScrollView>
+            )
+            }
         </SafeAreaView>
     )
 }
