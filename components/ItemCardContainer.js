@@ -10,16 +10,22 @@ const ItemCardContainer = ({image, title, location} ) => {
             className="w-full h-40 rounded-md object-cover"
         />
 
-        <Text className="text-[#428288] text-[18px] font-bold">
-            {title?.length >12  ? `${title.slice(0,12)}...` : title}
-        </Text>
+        {title ? (
+            <>
+                <Text className="text-[#428288] text-[18px] font-bold">
+                    {title?.length >12  ? `${title.slice(0,12)}...` : title}
+                </Text>
 
-         <View className="flex-row items-center gap-1">
-            <FontAwesome name="map-marker" size={20} color="#FF0000" />
-            <Text className="text-[#428288] text-[14px] font-bold">
-                {location?.length >18  ? `${location.slice(0,18)}...` : location}
-            </Text>
-         </View>
+                <View className="flex-row items-center gap-1">
+                    <FontAwesome name="map-marker" size={20} color="#FF0000" />
+                    <Text className="text-[#428288] text-[14px] font-bold">
+                        {location?.length >18  ? `${location.slice(0,18)}...` : location}
+                    </Text>
+                </View>
+            </>
+        ) : (
+            <></>
+        )}
     </TouchableOpacity>
   )
 }

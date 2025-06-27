@@ -1,5 +1,5 @@
 import { View, Text, SafeAreaView, Image, ScrollView, TouchableOpacity, ActivityIndicator } from 'react-native'
-import React, { useLayoutEffect, useState } from 'react'
+import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete'
 import 'react-native-get-random-values';
 import { useNavigation } from '@react-navigation/native'
@@ -7,6 +7,7 @@ import { Avatar, Hotels, Attractions, Restaurants } from '../assets';
 import MenuContainer from '../components/MenuContainer';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import ItemCardContainer from '../components/ItemCardContainer';
+import { getPlacesData } from './api';
 
 const Discover = () => {
 
@@ -20,7 +21,17 @@ const Discover = () => {
         navigation.setOptions({
             headerShown : false,
         })
-    }, [])
+    }, []);
+
+    useEffect(() => {
+        setIsLoading(true);
+        getPlacesData().then(data => {
+            setMainData(data)
+            setInterval(() => {
+                setIsLoading(false)
+            }, 2000);
+        });
+    }, []);
 
     return (
         <SafeAreaView className="flex-1 bg-white relative">
@@ -134,8 +145,18 @@ const Discover = () => {
                         <View className="px-4 mt-8 flex-row items-center justify-evenly flex-wrap w-full">
                             {mainData?.length > 0 ? (
                                 <>
-                                    <ItemCardContainer key={"101"} image={"https://i.regiogroei.cloud/75f9bac9-28d8-3ab8-8543-8fd48aad9ae0.jpg"} title="Madurodam" location="The Hague"/>
-                                    <ItemCardContainer key={"102"} image={"https://top10bezienswaardigheden.nl/wp-content/uploads/2022/11/denhaag-binnenhof.jpeg"} title="Ridderzaal" location="The Hague"/>
+                                   {mainData?.map((data, i) => (
+                                        <ItemCardContainer 
+                                            key={i} 
+                                            image={
+                                                data?.photo?.images?.medium?.url ?  
+                                                data?.photo?.images?.medium?.url :
+                                                "https://static.thenounproject.com/png/2932881-200.png"
+                                            }
+                                            title={data?.name}
+                                            location={data?.location_string}
+                                        />
+                                   ))}
                                 </> 
                             ) : (
                                 <>
