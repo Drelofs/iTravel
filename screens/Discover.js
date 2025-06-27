@@ -6,6 +6,7 @@ import { useNavigation } from '@react-navigation/native'
 import { Avatar, Hotels, Attractions, Restaurants } from '../assets';
 import MenuContainer from '../components/MenuContainer';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
+import ItemCardContainer from '../components/ItemCardContainer';
 
 const Discover = () => {
 
@@ -123,8 +124,9 @@ const Discover = () => {
                         </TouchableOpacity>
                     </View>
 
-                    <View className="px-4 mt-8 flew-row items-center justify-evenly flex-wrap">
-
+                    <View className="px-4 mt-8 flex-row items-center justify-evenly flex-wrap w-full">
+                        <ItemCardContainer key={"101"} image={"https://i.regiogroei.cloud/75f9bac9-28d8-3ab8-8543-8fd48aad9ae0.jpg"} title="Madurodam" location="The Hague"/>
+                        <ItemCardContainer key={"102"} image={"https://top10bezienswaardigheden.nl/wp-content/uploads/2022/11/denhaag-binnenhof.jpeg"} title="Ridderzaal" location="The Hague"/>
                     </View>
                 </View>
             </ScrollView>
