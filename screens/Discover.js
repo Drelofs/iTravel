@@ -3,9 +3,9 @@ import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete'
 import 'react-native-get-random-values';
 import { useNavigation } from '@react-navigation/native'
-import { Avatar, Hotels, Attractions, Restaurants } from '../assets';
+import { Hotels, Attractions, Restaurants } from '../assets';
 import MenuContainer from '../components/MenuContainer';
-import FontAwesome from '@expo/vector-icons/FontAwesome';
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import ItemCardContainer from '../components/ItemCardContainer';
 import { getPlacesData } from '../api';
 
@@ -47,15 +47,13 @@ const Discover = () => {
         <SafeAreaView className="flex-1 bg-white relative">
             <View className="flex-row items-center justify-between px-8">
                 <View>
-                    <Text className="text-[40px] text-[#0B646B] font-bold">Discover</Text>
-                    <Text className="text-[#527283] text-[36px]">the beauty today</Text>
+                    <Text className="text-[#527283] text-[36px]">Travel App</Text>
                 </View>
 
-                <View className="w-12 h-12 bg-gray-400 rounded-md items-center justify-center">
-                    <Image
-                        source={Avatar}
-                        className="w-full h-full rounded-md object-cover shadow-lg"
-                    />
+                <View>
+                    <TouchableOpacity onPress={() => navigation.navigate("MapScreen")} className="border border-black w-12 h-12 rounded-md items-center justify-center">
+                        <MaterialCommunityIcons name="google-maps" size={24} color="black" />
+                    </TouchableOpacity>
                 </View>
             </View>
 
