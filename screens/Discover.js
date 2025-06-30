@@ -14,7 +14,10 @@ const Discover = () => {
     const navigation = useNavigation();
 
     const [type, setType] = useState("restaurants")
+
     const [isLoading, setIsLoading] = useState(false);
+    const [hasSearched, setHasSearched] = useState(false);
+
     const [mainData, setMainData] = useState([]);
     const [bl_lat, setBl_lat] = useState(null);
     const [bl_lng, setBl_lng] = useState(null);
@@ -28,13 +31,16 @@ const Discover = () => {
     }, []);
 
     useEffect(() => {
-        setIsLoading(true);
-        getPlacesData(bl_lat, bl_lng, tr_lat, tr_lng, type).then(data => {
-            setMainData(data)
-            setInterval(() => {
-                setIsLoading(false)
-            }, 2000);
-        });
+        // Only fetch when all coordinates are set (after user selects from autocomplete)
+        if (bl_lat && bl_lng && tr_lat && tr_lng) {
+            setIsLoading(true);
+            getPlacesData(bl_lat, bl_lng, tr_lat, tr_lng, type).then(data => {
+                setMainData(data);
+                setTimeout(() => {
+                    setIsLoading(false);
+                }, 2000);
+            });
+        }
     }, [bl_lat, bl_lng, tr_lat, tr_lng, type]);
 
     return (
@@ -64,6 +70,7 @@ const Discover = () => {
                         setBl_lng(details?.geometry?.viewport?.southwest?.lng);
                         setTr_lat(details?.geometry?.viewport?.northeast?.lat);
                         setTr_lng(details?.geometry?.viewport?.northeast?.lng);
+                        setHasSearched(true);
                     }}
                     query={{
                         key: 'AIzaSyAKDlpICho17hF_JnMbX6nMXIFmQkuTFj0',
@@ -142,13 +149,13 @@ const Discover = () => {
                     </View>
 
                     <View>
-                        <View className="flex-row items center justify-between  px-4 mt-8">
+                        {/* <View className="flex-row items center justify-between  px-4 mt-8">
                             <Text className="text-[#2C7379] text-[28px] font-bold">Results</Text>
                             <TouchableOpacity className="flex-row items-center justify-center gap-2">
                                 <Text className="text-[#A0C4C7] text-[20px] font-bold">Explore</Text>
                                 <FontAwesome name="long-arrow-right" size={24} color="#A0C4C7" />
                             </TouchableOpacity>
-                        </View>
+                        </View> */}
 
                         <View className="px-4 mt-8 flex-row items-center justify-evenly flex-wrap w-full">
                             {mainData?.length > 0 ? (
@@ -170,7 +177,9 @@ const Discover = () => {
                             ) : (
                                 <>
                                     <View className="w-full h-[200px] items-center gap-8 justify-center">
-                                        <Text className="text-2xl text-[#428288]">No Results found...</Text>
+                                        <Text className="text-2xl text-[#428288]">
+                                            {hasSearched ? "No Results found..." : "Search a location to get started!"}
+                                        </Text>
                                     </View>
                                 </>
                             )}
