@@ -130,9 +130,20 @@ const ItemScreen = ({route}) => {
                 )}
                 </View>
                 <View className="mt-4 px-4 py-4 rounded-lg bg-[#06B2BE] items-center justify-center mb-12">
-                    <Text className="text-3xl font-semibold uppercase tracking-wider text-gray-100">
-                        Book Now
-                    </Text>
+                    <TouchableOpacity
+                        onPress={() => navigation.navigate('ItemMapScreen', {
+                        poiLocation: {
+                            latitude: Number(data.latitude),
+                            longitude: Number(data.longitude),
+                        },
+                        poiName: data.name,
+                        })}
+                        style={{ width: '100%', alignItems: 'center' }}
+                    >
+                        <Text className="text-3xl font-semibold uppercase tracking-wider text-gray-100">
+                        Show on Map
+                        </Text>
+                    </TouchableOpacity>
                 </View>
 
             </ScrollView>

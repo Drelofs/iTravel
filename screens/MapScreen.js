@@ -122,9 +122,9 @@ const MapScreen = () => {
                 onPress={() => navigation.navigate('ItemScreen', { param: place })}
                 >
                 <View style={{ width: 200, padding: 5 }}>
-                    <Text style={{ fontWeight: 'bold' }}>{place.name}</Text>
+                    <Text style={{ fontWeight: 'bold' }}>{place?.name}</Text>
                     <Text numberOfLines={2} style={{ marginBottom: 8 }}>
-                    {place.address || place.location_string}
+                    {place?.address || place?.location_string}
                     </Text>
                     <TouchableOpacity
                     style={{
