@@ -1,7 +1,7 @@
 import { View, Text, SafeAreaView, TouchableOpacity, StyleSheet, ActivityIndicator } from 'react-native'
 import React, { useRef, useLayoutEffect, useEffect, useState } from 'react';
 import { useNavigation } from '@react-navigation/native'
-import MapView, { Marker } from 'react-native-maps';
+import MapView, { Marker, Callout } from 'react-native-maps';
 import * as Location from 'expo-location';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import { getPlacesData } from '../api';
@@ -20,6 +20,7 @@ const MapScreen = () => {
     navigation.setOptions({ headerShown: false });
   }, [navigation]);
 
+  //Gets current location of user
   useEffect(() => {
     (async () => {
       const { status } = await Location.requestForegroundPermissionsAsync();
@@ -38,6 +39,7 @@ const MapScreen = () => {
     })();
   }, []);
 
+  // Gets locations from Rapid API
   useEffect(() => {
     const fetchPlacesFromMap = async () => {
       if (mapRef.current) {
@@ -63,6 +65,7 @@ const MapScreen = () => {
     }
   }, [mapReady, location]);
 
+  // Zoom on the region with markers
   useEffect(() => {
     if (places.length > 0) {
       const lats = places.map(p => Number(p.latitude));
@@ -105,19 +108,43 @@ const MapScreen = () => {
         showsUserLocation={true}
         onMapReady={() => setMapReady(true)}
       >
-        {places.map((place, i) =>
-          place.latitude && place.longitude ? (
+        {places?.map((place, i) => (
+            place.latitude && place.longitude && (
             <Marker
-              key={i}
-              coordinate={{
+                key={i}
+                coordinate={{
                 latitude: Number(place.latitude),
                 longitude: Number(place.longitude),
-              }}
-              title={place.name}
-              description={place.address || place.location_string}
-            />
-          ) : null
-        )}
+                }}
+            >
+                <Callout
+                tooltip={false} // default styling, you can set true for full customization
+                onPress={() => navigation.navigate('ItemScreen', { param: place })}
+                >
+                <View style={{ width: 200, padding: 5 }}>
+                    <Text style={{ fontWeight: 'bold' }}>{place.name}</Text>
+                    <Text numberOfLines={2} style={{ marginBottom: 8 }}>
+                    {place.address || place.location_string}
+                    </Text>
+                    <TouchableOpacity
+                    style={{
+                        backgroundColor: '#06B2BE',
+                        paddingVertical: 6,
+                        paddingHorizontal: 12,
+                        borderRadius: 5,
+                        alignItems: 'center',
+                    }}
+                    onPress={() => navigation.navigate('ItemScreen', { param: place })}
+                    >
+                    <Text style={{ color: 'white', fontWeight: 'bold' }}>
+                        Show Item →
+                    </Text>
+                    </TouchableOpacity>
+                </View>
+                </Callout>
+            </Marker>
+            )
+        ))}
       </MapView>
 
       <SafeAreaView style={styles.backButtonContainer}>
@@ -128,18 +155,6 @@ const MapScreen = () => {
           <FontAwesome5 name="chevron-left" size={24} color="#06B2BE" />
         </TouchableOpacity>
       </SafeAreaView>
-
-      {/* {regionBounds && (
-        <View style={styles.info}>
-          <Text style={styles.title}>Visible Map Bounds:</Text>
-          <Text>Bottom Left (SW):</Text>
-          <Text>Latitude: {regionBounds.southWest.latitude.toFixed(6)}</Text>
-          <Text>Longitude: {regionBounds.southWest.longitude.toFixed(6)}</Text>
-          <Text>Top Right (NE):</Text>
-          <Text>Latitude: {regionBounds.northEast.latitude.toFixed(6)}</Text>
-          <Text>Longitude: {regionBounds.northEast.longitude.toFixed(6)}</Text>
-        </View>
-      )} */}
     </View>
   );
 };
