@@ -5,7 +5,7 @@ import * as Location from 'expo-location';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 
-const ItemMapsScreen = () => {
+const ItemLocationScreen = () => {
   const navigation = useNavigation();
   const route = useRoute();
   const { poiLocation, poiName } = route.params;
@@ -79,7 +79,7 @@ const ItemMapsScreen = () => {
   }
 
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       <MapView
         ref={mapRef}
         style={styles.map}
@@ -98,14 +98,20 @@ const ItemMapsScreen = () => {
           />
         )}
       </MapView>
-
-      <TouchableOpacity
-        onPress={() => navigation.goBack()}
-        style={styles.backButton}
-      >
-        <FontAwesome5 name="chevron-left" size={24} color="#06B2BE" />
-      </TouchableOpacity>
-    </SafeAreaView>
+      <SafeAreaView style={styles.headerContainer}>
+        <TouchableOpacity
+          onPress={() => navigation.goBack()}
+          style={styles.backButton}
+        >
+          <FontAwesome5 name="chevron-left" size={24} color="#06B2BE" />
+        </TouchableOpacity>
+        <View className="bg-white p-2 rounded-xl h-[40px]">
+          <Text className="text-xl black text-[#06B2BE] font-semibold">
+            {poiName?.length >28  ? `${poiName.slice(0,28)}...` : poiName}
+          </Text>
+        </View>
+      </SafeAreaView>
+    </View>
   );
 };
 
@@ -117,15 +123,26 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  backButton: {
+  headerContainer: {
     position: 'absolute',
     top: 40,
     left: 20,
+    zIndex: 100,
+    flex: 1,
+    gap: 12,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  backButton: {
+    width: 40,
+    height: 40,
+    borderRadius: 8,
     backgroundColor: 'white',
-    padding: 10,
-    borderRadius: 5,
-    elevation: 5,
+    justifyContent: 'center',
+    alignItems: 'center',
+    elevation: 3,
   },
 });
 
-export default ItemMapsScreen;
+export default ItemLocationScreen;

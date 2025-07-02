@@ -4,7 +4,7 @@ import HomeScreen from './screens/HomeScreen';
 import Discover from './screens/Discover';
 import ItemScreen from './screens/ItemScreen';
 import MapScreen from './screens/MapScreen';
-import ItemMapScreen from './screens/ItemMapScreen';
+import ItemLocationScreen from './screens/ItemLocationScreen';
 import "./global.css";
 
 const Stack = createNativeStackNavigator();
@@ -22,7 +22,7 @@ export default function App() {
         <Stack.Screen name="Discover" component={Discover} />
         <Stack.Screen name="ItemScreen" component={ItemScreen} />
         <Stack.Screen name="MapScreen" component={MapScreen} />
-        <Stack.Screen name="ItemMapScreen" component={ItemMapScreen} />
+        <Stack.Screen name="ItemLocationScreen" component={ItemLocationScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

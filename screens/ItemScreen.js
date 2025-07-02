@@ -131,14 +131,14 @@ const ItemScreen = ({route}) => {
                 </View>
                 <View className="mt-4 px-4 py-4 rounded-lg bg-[#06B2BE] items-center justify-center mb-12">
                     <TouchableOpacity
-                        onPress={() => navigation.navigate('ItemMapScreen', {
+                        className="w-full items-center"
+                        onPress={() => navigation.navigate('ItemLocationScreen', {
                         poiLocation: {
                             latitude: Number(data.latitude),
                             longitude: Number(data.longitude),
                         },
                         poiName: data.name,
                         })}
-                        style={{ width: '100%', alignItems: 'center' }}
                     >
                         <Text className="text-3xl font-semibold uppercase tracking-wider text-gray-100">
                         Show on Map
