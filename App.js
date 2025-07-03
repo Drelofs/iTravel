@@ -2,7 +2,6 @@ import 'react-native-gesture-handler';
 import 'react-native-reanimated';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-
 import MainTabs from './MainTabs';
 import ItemScreen from './screens/ItemScreen';
 import MapScreen from './screens/MapScreen';
