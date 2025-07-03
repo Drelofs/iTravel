@@ -1,7 +1,9 @@
+import 'react-native-gesture-handler';
+import 'react-native-reanimated';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import HomeScreen from './screens/HomeScreen';
-import Discover from './screens/Discover';
+
+import MainTabs from './MainTabs';
 import ItemScreen from './screens/ItemScreen';
 import MapScreen from './screens/MapScreen';
 import ItemLocationScreen from './screens/ItemLocationScreen';
@@ -14,12 +16,16 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator
         screenOptions={{
-          animation: 'slide_from_right', // default on iOS
-          gestureDirection: 'horizontal', // ensure horizontal swipe works
+          animation: 'slide_from_right',
+          gestureDirection: 'horizontal',
         }}
       >
-        <Stack.Screen name="Home" component={HomeScreen} />
-        <Stack.Screen name="Discover" component={Discover} />
+        {/* Bottom Tabs as the main entry */}
+        <Stack.Screen
+          name="MainTabs"
+          component={MainTabs}
+          options={{ headerShown: false }}
+        />
         <Stack.Screen name="ItemScreen" component={ItemScreen} />
         <Stack.Screen name="MapScreen" component={MapScreen} />
         <Stack.Screen name="ItemLocationScreen" component={ItemLocationScreen} />
