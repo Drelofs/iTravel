@@ -27,11 +27,11 @@ export default function MainTabs() {
 
           return <Ionicons name={iconName} size={size} color={color} />;
         },
-        tabBarActiveTintColor: 'tomato',
+        tabBarActiveTintColor: '#D81B60',
         tabBarInactiveTintColor: 'gray',
         tabBarStyle: {
-          backgroundColor: darkMode ? '#1F2937' : '#fff', // dark bg or white bg
-          borderTopColor: darkMode ? '#374151' : '#E5E7EB', // dark or light border
+          backgroundColor: darkMode ? '#000' : '#fff', // dark bg or white bg
+          borderTopColor: darkMode ? '#000' : '#E5E7EB', // dark or light border
         },
       })}
     >

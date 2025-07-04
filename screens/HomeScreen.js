@@ -46,7 +46,7 @@ const HomeScreen = () => {
     }, [bl_lat, bl_lng, tr_lat, tr_lng, type]);
 
     return (
-        <SafeAreaView className={darkMode ? "flex-1 bg-black" : "flex-1 bg-white"}>
+        <SafeAreaView className={`flex-1 ${darkMode ? "bg-neutral-900" : "bg-neutral-100"}`}>
             <View className="flex-row items-center justify-between px-8">
                 <View>
                     <Text className="text-pink-600 text-[36px]">Travel App</Text>
@@ -127,23 +127,39 @@ const HomeScreen = () => {
                             paddingHorizontal: 10,
                           },
                           listView: {
-                            backgroundColor: darkMode ? '#111' : '#fff',  // dropdown list background
+                            backgroundColor: darkMode ? '#000' : '#fff',  // dropdown list background
                             borderRadius: 10,
                             marginHorizontal: 0,
+                          },
+                          row: {
+                            backgroundColor: darkMode ? '#000' : '#fff', // each item
+                            padding: 13,
+                            height: 44,
+                            flexDirection: 'row',
+                          },
+                          poweredContainer: {
+                            backgroundColor: darkMode ? '#000' : '#fff',
+                            borderTopWidth: 0.5,
+                            borderTopColor: darkMode ? '#444' : '#ccc',
+                          },
+                          powered: {
+                            tintColor: darkMode ? '#aaa' : '#666', // color of the Google logo
                           },
                           description: {
                             color: darkMode ? '#eee' : '#444',            // text color of autocomplete rows
                           },
                           predefinedPlacesDescription: {
-                            color: darkMode ? '#aaa' : '#666',
+                            color: darkMode ? '#333' : '#666',
                           },
                           separator: {
                             backgroundColor: darkMode ? '#555' : '#ccc',
                         },
                     }}
+                    textInputProps={{
+                        placeholderTextColor: darkMode ? '#888' : '#888',
+                    }}
                     suppressDefaultStyles={false}
                     textInputHide={false}
-                    textInputProps={{}}
                     timeout={20000}
                 />
             </View>
@@ -151,7 +167,7 @@ const HomeScreen = () => {
             {/* Menu container */}
             {isLoading ? (
                 <View className="flex-1 items-center justify-center">
-                    <ActivityIndicator size="large" color="#0B646B" />
+                    <ActivityIndicator size="large" color="#D81B60" />
                 </View> 
             ) : ( 
                 <ScrollView>
@@ -180,7 +196,7 @@ const HomeScreen = () => {
                     </View>
 
                     <View>
-                        <View className="px-4 mt-8 flex-row items-center justify-evenly flex-wrap w-full">
+                        <View className="px-4 mt-8 flex-row items-center flex-wrap w-full gap-4">
                             {mainData?.length > 0 ? (
                                 <>
                                    {mainData?.map((data, i) => (
@@ -200,7 +216,7 @@ const HomeScreen = () => {
                             ) : (
                                 <>
                                     <View className="w-full h-[200px] items-center gap-8 justify-center">
-                                        <Text className="text-2xl text-[#428288]">
+                                        <Text className="text-2xl text-pink-600">
                                             {hasSearched ? "No Results found..." : "Search a location to get started!"}
                                         </Text>
                                     </View>

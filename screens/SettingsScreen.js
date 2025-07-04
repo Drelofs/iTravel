@@ -7,7 +7,7 @@ const SettingsScreen = () => {
   const { darkMode, toggleTheme } = useTheme();
 
   return (
-    <SafeAreaView className={darkMode ? "flex-1 bg-black" : "flex-1 bg-white"}>
+    <SafeAreaView className={`flex-1 ${darkMode ? "bg-neutral-900" : "bg-white"}`}>
       <View className="flex-row justify-center items-center mt-4">
         <Text className={`text-2xl font-semibold ${darkMode ? 'text-white' : 'text-black'}`}>
           Settings
