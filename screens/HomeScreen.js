@@ -7,11 +7,13 @@ import { Hotels, Attractions, Restaurants } from '../assets';
 import MenuContainer from '../components/MenuContainer';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import ItemCardContainer from '../components/ItemCardContainer';
+import { useTheme } from '../contexts/ThemeContext';
 import { getPlacesData } from '../api';
 
 const HomeScreen = () => {
 
     const navigation = useNavigation();
+    const { darkMode, toggleTheme } = useTheme();
 
     const [type, setType] = useState("restaurants")
 
@@ -44,26 +46,25 @@ const HomeScreen = () => {
     }, [bl_lat, bl_lng, tr_lat, tr_lng, type]);
 
     return (
-        <SafeAreaView className="flex-1 bg-white relative">
+        <SafeAreaView className={darkMode ? "flex-1 bg-black" : "flex-1 bg-white"}>
             <View className="flex-row items-center justify-between px-8">
                 <View>
-                    <Text className="text-[#527283] text-[36px]">Travel App</Text>
+                    <Text className="text-pink-600 text-[36px]">Travel App</Text>
                 </View>
 
                 <View>
-                    <TouchableOpacity onPress={() => navigation.navigate("MapScreen")} className="border border-black w-12 h-12 rounded-md items-center justify-center">
-                        <MaterialCommunityIcons name="google-maps" size={24} color="black" />
+                    <TouchableOpacity onPress={() => navigation.navigate("MapScreen")} className="border border-pink-600 w-12 h-12 rounded-md items-center justify-center">
+                        <MaterialCommunityIcons name="google-maps" size={24} color="#D81B60" />
                     </TouchableOpacity>
                 </View>
             </View>
 
-            <View className="flex-row items-center bg-white border-2 border-gray-300 mx-4 rounded-xl py-1 px-2 mt-4">
+            <View className={`flex-row items-center ${darkMode ? "bg-black border-gray-800" : "bg-white border-gray-300" } border-2 mx-4 rounded-xl py-1 px-2 mt-4`}>
                 <GooglePlacesAutocomplete
                     placeholder="Search"
                     GooglePlacesDetailsQuery={{fields : "geometry"}}
                     fetchDetails={true}
                     onPress={(data, details = null) => {
-                        // console.log(details?.geometry?.viewport);
                         setBl_lat(details?.geometry?.viewport?.southwest?.lat);
                         setBl_lng(details?.geometry?.viewport?.southwest?.lng);
                         setTr_lat(details?.geometry?.viewport?.northeast?.lat);
@@ -107,7 +108,39 @@ const HomeScreen = () => {
                     }
                     predefinedPlaces={[]}
                     predefinedPlacesAlwaysVisible={false}
-                    styles={{}}
+                    styles={{
+                        textInputContainer: {
+                            backgroundColor: darkMode ? '000' : '#fff',   // background behind the text input
+                            borderRadius: 10,
+                            marginHorizontal: 0,
+                            marginTop: 0,
+                            borderBottomWidth: 0,
+                            borderTopWidth: 0,
+                          },
+                          textInput: {
+                            backgroundColor: darkMode ? '#000' : '#fff',   // the input field itself
+                            color: darkMode ? '#fff' : '#000',
+                            borderRadius: 10,
+                            fontSize: 16,
+                            height: 40,
+                            paddingVertical: 5,
+                            paddingHorizontal: 10,
+                          },
+                          listView: {
+                            backgroundColor: darkMode ? '#111' : '#fff',  // dropdown list background
+                            borderRadius: 10,
+                            marginHorizontal: 0,
+                          },
+                          description: {
+                            color: darkMode ? '#eee' : '#444',            // text color of autocomplete rows
+                          },
+                          predefinedPlacesDescription: {
+                            color: darkMode ? '#aaa' : '#666',
+                          },
+                          separator: {
+                            backgroundColor: darkMode ? '#555' : '#ccc',
+                        },
+                    }}
                     suppressDefaultStyles={false}
                     textInputHide={false}
                     textInputProps={{}}
@@ -147,14 +180,6 @@ const HomeScreen = () => {
                     </View>
 
                     <View>
-                        {/* <View className="flex-row items center justify-between  px-4 mt-8">
-                            <Text className="text-[#2C7379] text-[28px] font-bold">Results</Text>
-                            <TouchableOpacity className="flex-row items-center justify-center gap-2">
-                                <Text className="text-[#A0C4C7] text-[20px] font-bold">Explore</Text>
-                                <FontAwesome name="long-arrow-right" size={24} color="#A0C4C7" />
-                            </TouchableOpacity>
-                        </View> */}
-
                         <View className="px-4 mt-8 flex-row items-center justify-evenly flex-wrap w-full">
                             {mainData?.length > 0 ? (
                                 <>

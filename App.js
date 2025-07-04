@@ -6,29 +6,42 @@ import MainTabs from './MainTabs';
 import ItemScreen from './screens/ItemScreen';
 import MapScreen from './screens/MapScreen';
 import ItemLocationScreen from './screens/ItemLocationScreen';
-import "./global.css";
+import { ThemeProvider, useTheme } from './contexts/ThemeContext';
+import { View, StatusBar } from 'react-native';
+import './global.css';
 
 const Stack = createNativeStackNavigator();
 
+function AppWrapper() {
+  const { darkMode } = useTheme();
+
+  return (
+    <View className={darkMode ? 'flex-1 dark' : 'flex-1'}>
+      <StatusBar
+        barStyle={darkMode ? "light-content" : "dark-content"}
+        animated={true}
+      />
+      <NavigationContainer>
+        <Stack.Navigator
+          screenOptions={{
+            animation: 'slide_from_right',
+            gestureDirection: 'horizontal',
+          }}
+        >
+          <Stack.Screen name="MainTabs" component={MainTabs} options={{ headerShown: false }} />
+          <Stack.Screen name="ItemScreen" component={ItemScreen} />
+          <Stack.Screen name="MapScreen" component={MapScreen} />
+          <Stack.Screen name="ItemLocationScreen" component={ItemLocationScreen} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </View>
+  );
+}
+
 export default function App() {
   return (
-    <NavigationContainer>
-      <Stack.Navigator
-        screenOptions={{
-          animation: 'slide_from_right',
-          gestureDirection: 'horizontal',
-        }}
-      >
-        {/* Bottom Tabs as the main entry */}
-        <Stack.Screen
-          name="MainTabs"
-          component={MainTabs}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen name="ItemScreen" component={ItemScreen} />
-        <Stack.Screen name="MapScreen" component={MapScreen} />
-        <Stack.Screen name="ItemLocationScreen" component={ItemLocationScreen} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <ThemeProvider>
+      <AppWrapper />
+    </ThemeProvider>
   );
 }

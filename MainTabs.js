@@ -4,10 +4,12 @@ import HomeScreen from './screens/HomeScreen';
 import SavedScreen from './screens/SavedScreen';
 import SettingsScreen from './screens/SettingsScreen';
 import { Ionicons } from '@expo/vector-icons';
+import { useTheme } from './contexts/ThemeContext';
 
 const Tab = createBottomTabNavigator();
 
 export default function MainTabs() {
+  const { darkMode } = useTheme();
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
@@ -27,6 +29,10 @@ export default function MainTabs() {
         },
         tabBarActiveTintColor: 'tomato',
         tabBarInactiveTintColor: 'gray',
+        tabBarStyle: {
+          backgroundColor: darkMode ? '#1F2937' : '#fff', // dark bg or white bg
+          borderTopColor: darkMode ? '#374151' : '#E5E7EB', // dark or light border
+        },
       })}
     >
       {/* <Tab.Screen name="Home" component={HomeScreen} /> */}
