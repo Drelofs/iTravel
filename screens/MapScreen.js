@@ -5,9 +5,11 @@ import MapView, { Marker, Callout } from 'react-native-maps';
 import * as Location from 'expo-location';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import { getPlacesData } from '../api';
+import { useTheme } from '../contexts/ThemeContext';
 
 const MapScreen = () => {
   const navigation = useNavigation();
+  const { darkMode, toggleTheme } = useTheme();
 
   const mapRef = useRef(null);
   const [mapReady, setMapReady] = useState(false);
@@ -148,11 +150,8 @@ const MapScreen = () => {
       </MapView>
 
       <SafeAreaView style={styles.backButtonContainer}>
-        <TouchableOpacity
-          onPress={() => navigation.goBack()}
-          style={styles.backButton}
-        >
-          <FontAwesome5 name="chevron-left" size={24} color="#06B2BE" />
+        <TouchableOpacity onPress={() => navigation.goBack()} className={`w-10 h-10 rounded-md items-center justify-center ${darkMode? "bg-neutral-900" : "bg-white"}`}>
+          <FontAwesome5 name="chevron-left" size={24} color="#D81B60" />
         </TouchableOpacity>
       </SafeAreaView>
     </View>

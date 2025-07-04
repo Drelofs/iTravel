@@ -3,9 +3,11 @@ import { View, Text, ScrollView, SafeAreaView } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import ItemCardContainer from '../components/ItemCardContainer';
 import { useFocusEffect } from '@react-navigation/native';
+import { useTheme } from '../contexts/ThemeContext';
 
 const SavedScreen = () => {
   const [savedLocations, setSavedLocations] = useState([]);
+  const { darkMode, toggleTheme } = useTheme();
 
   useFocusEffect(
     useCallback(() => {
@@ -19,16 +21,16 @@ const SavedScreen = () => {
   );
 
   return (
-    <SafeAreaView className="flex-1 bg-white relative">
+    <SafeAreaView className={`flex-1 ${darkMode ? "bg-neutral-900" : "bg-neutral-100"} relative`}>
       <View className="flex-row justify-center items-center mt-4">
-        <Text className="text-2xl font-semibold text-[#06B2BE]">
+        <Text className="text-3xl font-semibold text-pink-600">
           Saved Locations
         </Text>
       </View>
-      <ScrollView className="p-4 bg-white">
+      <ScrollView className="p-4">
         {savedLocations.length === 0 ? (
           <View className="h-80 w-full flex-1 items-center justify-center">
-            <Text>There are no saved locations.</Text>
+            <Text className={`${darkMode ? "text-slate-100" : "text-gray-900"} text-xl`}>You haven't saved any locations yet.</Text>
           </View>      
         ) : (
           savedLocations.map((loc, i) => (
