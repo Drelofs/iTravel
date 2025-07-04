@@ -4,9 +4,11 @@ import MapView, { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
+import { useTheme } from '../contexts/ThemeContext';
 
 const ItemLocationScreen = () => {
   const navigation = useNavigation();
+  const { darkMode, toggleTheme } = useTheme();
   const route = useRoute();
   const { poiLocation, poiName } = route.params;
 
@@ -99,14 +101,11 @@ const ItemLocationScreen = () => {
         )}
       </MapView>
       <SafeAreaView style={styles.headerContainer}>
-        <TouchableOpacity
-          onPress={() => navigation.goBack()}
-          style={styles.backButton}
-        >
-          <FontAwesome5 name="chevron-left" size={24} color="#06B2BE" />
+        <TouchableOpacity onPress={() => navigation.goBack()} className={`w-10 h-10 rounded-md items-center justify-center ${darkMode? "bg-neutral-900" : "bg-white"}`}>
+          <FontAwesome5 name="chevron-left" size={24} color="#D81B60" />
         </TouchableOpacity>
-        <View className="bg-white p-2 rounded-xl h-[40px]">
-          <Text className="text-xl black text-[#06B2BE] font-semibold">
+        <View className={`${darkMode? "bg-neutral-900" : "bg-white"} p-2 rounded-md h-[36px]`}>
+          <Text className="text-lg black text-pink-600 font-semibold">
             {poiName?.length >28  ? `${poiName.slice(0,28)}...` : poiName}
           </Text>
         </View>

@@ -52,12 +52,10 @@ const ItemScreen = ({ route }) => {
         updated.splice(index, 1);
         await AsyncStorage.setItem('savedLocations', JSON.stringify(updated));
         setIsSaved(false);
-        alert('Location removed from saved.');
       } else {
         const updated = [...saved, locationData];
         await AsyncStorage.setItem('savedLocations', JSON.stringify(updated));
         setIsSaved(true);
-        alert('Location saved!');
       }
     } catch (e) {
       console.error('Failed to toggle save location:', e);
@@ -153,7 +151,7 @@ const ItemScreen = ({ route }) => {
           </View>
         )}
 
-        <View className={`gap-y-2 mt-4 ${darkMode ? "bg-neutral-800" : "bg-gray-200"} rounded-2xl px-4 py-4`}>
+        <View className={`gap-y-2 mt-4 ${darkMode ? "bg-neutral-800" : "bg-gray-200"} rounded-2xl px-4 py-4 overflow-hidden`}>
           {data?.phone && (
             <View className="items-center flex-row gap-x-8">
               <FontAwesome name="phone" size={24} color="#D81B60" />

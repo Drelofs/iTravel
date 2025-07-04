@@ -93,7 +93,7 @@ const MapScreen = () => {
 
   if (!location || !region) {
     return (
-      <View style={styles.center}>
+      <View style={styles.center} className={`${darkMode ? "bg-neutral-900" : "bg-neutral-100"}`}>
         <ActivityIndicator size="large" />
         <Text>Getting current location...</Text>
       </View>
@@ -120,17 +120,17 @@ const MapScreen = () => {
                 }}
             >
                 <Callout
-                tooltip={false} // default styling, you can set true for full customization
+                tooltip={true} // default styling, you can set true for full customization
                 onPress={() => navigation.navigate('ItemScreen', { param: place })}
                 >
-                <View style={{ width: 200, padding: 5 }}>
-                    <Text style={{ fontWeight: 'bold' }}>{place?.name}</Text>
-                    <Text numberOfLines={2} style={{ marginBottom: 8 }}>
+                <View style={{ width: 200, padding: 5 }} className={`px-4 py-4 rounded-xl ${darkMode ? "bg-neutral-900" : "bg-neutral-100"}`}>
+                    <Text className={`font-bold ${darkMode ? "text-neutral-100" : "text-neutral-900"}`}>{place?.name}</Text>
+                    <Text numberOfLines={2} className={`mb-4 ${darkMode ? "text-neutral-300" : "text-neutral-900"}`}>
                     {place?.address || place?.location_string}
                     </Text>
                     <TouchableOpacity
                     style={{
-                        backgroundColor: '#06B2BE',
+                        backgroundColor: '#D81B60',
                         paddingVertical: 6,
                         paddingHorizontal: 12,
                         borderRadius: 5,

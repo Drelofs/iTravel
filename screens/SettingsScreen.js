@@ -20,6 +20,7 @@ const SettingsScreen = () => {
           <Switch
             value={darkMode}
             onValueChange={toggleTheme}
+            trackColor={{ false: '', true: '#D81B60' }}
           />
         </View>
       </View>

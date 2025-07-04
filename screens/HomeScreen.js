@@ -171,29 +171,31 @@ const HomeScreen = () => {
                 </View> 
             ) : ( 
                 <ScrollView>
+                    {hasSearched && (
                     <View className="flex-row items-center justify-between px-8 mt-8">
                         <MenuContainer 
                             key={"restaurants"}
                             title="Restaurants"
-                            imageSrc= {Restaurants}
+                            imageSrc={Restaurants}
                             type={type}
                             setType={setType}
                         />
                         <MenuContainer 
                             key={"hotels"}
                             title="Hotels"
-                            imageSrc= {Hotels}
+                            imageSrc={Hotels}
                             type={type}
                             setType={setType}
                         />
                         <MenuContainer 
                             key={"attractions"}
                             title="Attractions"
-                            imageSrc= {Attractions}
+                            imageSrc={Attractions}
                             type={type}
                             setType={setType}
                         />
                     </View>
+                    )}
 
                     <View>
                         <View className="px-4 mt-8 flex-row items-center flex-wrap w-full gap-4">
@@ -216,7 +218,7 @@ const HomeScreen = () => {
                             ) : (
                                 <>
                                     <View className="w-full h-[200px] items-center gap-8 justify-center">
-                                        <Text className="text-2xl text-pink-600">
+                                        <Text className={`text-2xl ${darkMode ? "text-slate-100" : "text-gray-900"} text-xl}`}>
                                             {hasSearched ? "No Results found..." : "Search a location to get started!"}
                                         </Text>
                                     </View>

@@ -1,7 +1,9 @@
 import { View, Text, TouchableOpacity, Image } from 'react-native'
 import React from 'react'
+import { useTheme } from '../contexts/ThemeContext';
 
 const MenuContainer = ({title, imageSrc, type, setType}) => {
+    const { darkMode, toggleTheme } = useTheme();
     const handlePress = () => {
         setType(title.toLowerCase())
     }
@@ -11,7 +13,7 @@ const MenuContainer = ({title, imageSrc, type, setType}) => {
                 <Image 
                     source={imageSrc} className="w-full h-full object-contain" />
             </View>
-            <Text className="text-pink-600 text-xl font-semibold">{title}</Text>
+            <Text className={`text-xl ${darkMode ? "text-slate-100" : "text-gray-900"} text-xl`}>{title}</Text>
         </TouchableOpacity>
     )
 }
