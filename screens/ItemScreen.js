@@ -1,4 +1,4 @@
-import { View, Text, SafeAreaView, ScrollView, Image, TouchableOpacity } from 'react-native';
+import { View, Text, SafeAreaView, ScrollView, Image, TouchableOpacity, Share } from 'react-native';
 import React, { useLayoutEffect, useState, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
@@ -63,6 +63,21 @@ const ItemScreen = ({ route }) => {
     }
   };
 
+  const handleShare = async () => {
+    try {
+      const mapsUrl = `https://maps.google.com/?q=${data.latitude},${data.longitude}`;
+      const message = `Hey, my Travel App showed me this location: ${data.name} on ${mapsUrl}`;
+  
+      await Share.share({
+        message,
+        title: data.name,
+      });
+    } catch (error) {
+      alert('Error sharing: ' + error.message);
+    }
+  };
+  
+
   return (
     <SafeAreaView className={`flex-1 ${darkMode ? "bg-neutral-900" : "bg-neutral-100"} relative`}>
       <ScrollView className="flex-1 px-4 py-6">
@@ -79,13 +94,19 @@ const ItemScreen = ({ route }) => {
             <TouchableOpacity onPress={() => navigation.goBack()} className={`w-10 h-10 rounded-md items-center justify-center ${darkMode? "bg-neutral-900" : "bg-white"}`}>
               <FontAwesome5 name="chevron-left" size={24} color="#D81B60" />
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => toggleSaveLocation(data)} className={`w-10 h-10 rounded-md items-center justify-center ${darkMode? "bg-neutral-900" : "bg-white"}`}>
-              {isSaved ? (
-                <Octicons name="heart-fill" size={24} color="#D81B60" />
-              ) : (
-                <Octicons name="heart" size={24} color="#D81B60" />
-              )}
-            </TouchableOpacity>
+            <View className="flex-row gap-4">
+              <TouchableOpacity onPress={() => toggleSaveLocation(data)} className={`w-10 h-10 rounded-md items-center justify-center ${darkMode ? "bg-neutral-900" : "bg-white"}`}>
+                {isSaved ? (
+                  <Octicons name="heart-fill" size={24} color="#D81B60" />
+                ) : (
+                  <Octicons name="heart" size={24} color="#D81B60" />
+                )}
+              </TouchableOpacity>
+
+              <TouchableOpacity onPress={handleShare} className={`w-10 h-10 rounded-md items-center justify-center ${darkMode ? "bg-neutral-900" : "bg-white"}`}>
+                <FontAwesome name="share-alt" size={24} color="#D81B60" />
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
 
