@@ -2,6 +2,7 @@ import 'react-native-gesture-handler';
 import 'react-native-reanimated';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import FaceIDScreen from './auth/FaceIDScreen';
 import MainTabs from './MainTabs';
 import ItemScreen from './screens/ItemScreen';
 import MapScreen from './screens/MapScreen';
@@ -23,12 +24,22 @@ function AppWrapper() {
       />
       <NavigationContainer>
         <Stack.Navigator
+          initialRouteName="FaceID"  // Set FaceIDScreen as first screen
           screenOptions={{
             animation: 'slide_from_right',
             gestureDirection: 'horizontal',
           }}
         >
-          <Stack.Screen name="MainTabs" component={MainTabs} options={{ headerShown: false }} />
+          <Stack.Screen
+            name="FaceID"
+            component={FaceIDScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="MainTabs"
+            component={MainTabs}
+            options={{ headerShown: false }}
+          />
           <Stack.Screen name="ItemScreen" component={ItemScreen} />
           <Stack.Screen name="MapScreen" component={MapScreen} />
           <Stack.Screen name="ItemLocationScreen" component={ItemLocationScreen} />
