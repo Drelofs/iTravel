@@ -49,7 +49,7 @@ const HomeScreen = () => {
         <SafeAreaView className={`flex-1 ${darkMode ? "bg-neutral-900" : "bg-neutral-100"}`}>
             <View className="flex-row items-center justify-between px-8">
                 <View>
-                    <Text className="text-pink-600 text-[36px]">Travel App</Text>
+                    <Text className="text-pink-600 text-[36px]">iTravel</Text>
                 </View>
 
                 <View>

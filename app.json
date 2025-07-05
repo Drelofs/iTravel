@@ -1,10 +1,10 @@
 {
   "expo": {
-    "name": "travel-advisor",
-    "slug": "travel-advisor",
+    "name": "iTravel",
+    "slug": "itravel",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/restaurants.png",
+    "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "splash": {
