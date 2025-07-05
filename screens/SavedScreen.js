@@ -7,7 +7,7 @@ import { useTheme } from '../contexts/ThemeContext';
 
 const SavedScreen = () => {
   const [savedLocations, setSavedLocations] = useState([]);
-  const { darkMode, toggleTheme } = useTheme();
+  const { darkMode } = useTheme();
 
   useFocusEffect(
     useCallback(() => {

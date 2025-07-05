@@ -13,7 +13,7 @@ import { getPlacesData } from '../api';
 const HomeScreen = () => {
 
     const navigation = useNavigation();
-    const { darkMode, toggleTheme } = useTheme();
+    const { darkMode, largeText } = useTheme();
 
     const [type, setType] = useState("restaurants")
 
@@ -121,7 +121,7 @@ const HomeScreen = () => {
                             backgroundColor: darkMode ? '#000' : '#fff',   // the input field itself
                             color: darkMode ? '#fff' : '#000',
                             borderRadius: 10,
-                            fontSize: 16,
+                            fontSize: largeText ? 18 : 14,
                             height: 40,
                             paddingVertical: 5,
                             paddingHorizontal: 10,
@@ -147,6 +147,7 @@ const HomeScreen = () => {
                           },
                           description: {
                             color: darkMode ? '#eee' : '#444',            // text color of autocomplete rows
+                            fontSize: largeText ? 16 : 13
                           },
                           predefinedPlacesDescription: {
                             color: darkMode ? '#333' : '#666',
@@ -205,8 +206,8 @@ const HomeScreen = () => {
                                         <ItemCardContainer 
                                             key={i} 
                                             image={
-                                                data?.photo?.images?.medium?.url 
-                                                ? data?.photo?.images?.medium?.url 
+                                                data?.photo?.images?.large?.url 
+                                                ? data?.photo?.images?.large?.url 
                                                 : "https://static.thenounproject.com/png/2932881-200.png"
                                             }
                                             title={data?.name}
@@ -218,7 +219,7 @@ const HomeScreen = () => {
                             ) : (
                                 <>
                                     <View className="w-full h-[200px] items-center gap-8 justify-center">
-                                        <Text className={`text-2xl ${darkMode ? "text-slate-100" : "text-gray-900"} text-xl}`}>
+                                        <Text className={`${largeText ? 'text-2xl' : 'text-lg'} ${darkMode ? "text-slate-100" : "text-gray-900"} text-xl}`}>
                                             {hasSearched ? "No Results found..." : "Search a location to get started!"}
                                         </Text>
                                     </View>

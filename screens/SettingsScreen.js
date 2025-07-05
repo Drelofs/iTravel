@@ -4,7 +4,7 @@ import { SafeAreaView } from 'react-native';
 import { useTheme } from '../contexts/ThemeContext';
 
 const SettingsScreen = () => {
-  const { darkMode, toggleTheme } = useTheme();
+  const { darkMode, toggleTheme, largeText, toggleLargeText } = useTheme();
 
   return (
     <SafeAreaView className={`flex-1 ${darkMode ? "bg-neutral-900" : "bg-neutral-100"}`}>
@@ -16,10 +16,22 @@ const SettingsScreen = () => {
 
       <View className="mt-10 px-6">
         <View className="flex-row justify-between items-center">
-          <Text className={`flex-1 text-xl ${darkMode ? "text-white" : "text-black"}`}>Dark Mode</Text>
+          <Text className={`flex-1 ${largeText ? 'text-2xl' : 'text-lg'} ${darkMode ? "text-white" : "text-black"}`}>Dark Mode</Text>
           <Switch
             value={darkMode}
             onValueChange={toggleTheme}
+            trackColor={{ false: '', true: '#D81B60' }}
+          />
+        </View>
+      </View>
+      <View className="mt-6 px-6">
+        <View className="flex-row justify-between items-center">
+          <Text className={`${largeText ? 'text-2xl' : 'text-lg'} ${darkMode ? 'text-white' : 'text-black'}`}>
+            Large Text
+          </Text>
+          <Switch
+            value={largeText}
+            onValueChange={toggleLargeText}
             trackColor={{ false: '', true: '#D81B60' }}
           />
         </View>

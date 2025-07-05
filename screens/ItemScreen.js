@@ -12,7 +12,7 @@ const ItemScreen = ({ route }) => {
   const navigation = useNavigation();
   const data = route?.params?.param;
 
-  const { darkMode, toggleTheme } = useTheme();
+  const { darkMode, largeText } = useTheme();
   const [isSaved, setIsSaved] = useState(false);
 
   useLayoutEffect(() => {
@@ -90,10 +90,10 @@ const ItemScreen = ({ route }) => {
         </View>
 
         <View className="mt-6">
-          <Text className="text-pink-600 text-[24px] font-bold">{data?.name}</Text>
+          <Text className={`text-pink-600 ${largeText ? 'text-4xl' : 'text-2xl'} font-bold`}>{data?.name}</Text>
           <View className="flex-row items-center gap-2 mt-2">
             <FontAwesome name="map-marker" size={25} color="#FF0000" />
-            <Text className="text-pink-300 text-[20px] font-bold">{data?.location_string}</Text>
+            <Text className={`text-pink-300 ${largeText ? 'text-2xl' : 'text-lg'} font-bold`}>{data?.location_string}</Text>
           </View>
         </View>
 
@@ -136,7 +136,7 @@ const ItemScreen = ({ route }) => {
         </View>
 
         {data?.description && (
-          <Text className={`my-4 tracking-wide text-[16px] ${darkMode ? "text-slate-100" : "text-gray-900"}`}>
+          <Text className={`my-4 tracking-wide ${largeText ? 'text-2xl' : 'text-md'} ${darkMode ? "text-slate-100" : "text-gray-900"}`}>
             {data?.description}
           </Text>
         )}
@@ -145,7 +145,7 @@ const ItemScreen = ({ route }) => {
           <View className="flex-row gap-2 items-center justify-start flex-wrap mt-4">
             {data?.cuisine.map((n) => (
               <TouchableOpacity key={n.key} className="px-2 py-1 rounded-md bg-pink-600">
-                <Text className="text-slate-100">{n.name}</Text>
+                <Text className={`text-slate-100 ${largeText ? 'text-2xl' : 'text-md'}`}>{n.name}</Text>
               </TouchableOpacity>
             ))}
           </View>
@@ -155,19 +155,19 @@ const ItemScreen = ({ route }) => {
           {data?.phone && (
             <View className="items-center flex-row gap-x-8">
               <FontAwesome name="phone" size={24} color="#D81B60" />
-              <Text className={`${darkMode ? "text-slate-100" : "text-gray-900"}`}>{data?.phone}</Text>
+              <Text className={`${largeText ? 'text-xl' : 'text-sm'} ${darkMode ? "text-slate-100" : "text-gray-900"}`}>{data?.phone}</Text>
             </View>
           )}
           {data?.email && (
             <View className="items-center flex-row gap-x-8">
               <FontAwesome name="envelope" size={24} color="#D81B60" />
-              <Text className={`${darkMode ? "text-slate-100" : "text-gray-900"}`}>{data?.email}</Text>
+              <Text className={`${largeText ? 'text-xl' : 'text-sm'} ${darkMode ? "text-slate-100" : "text-gray-900"}`}>{data?.email}</Text>
             </View>
           )}
           {data?.address && (
             <View className="items-center flex-row gap-x-8">
               <FontAwesome name="map-pin" size={24} color="#D81B60" />
-              <Text className={`${darkMode ? "text-slate-100" : "text-gray-900"}`}>{data?.address}</Text>
+              <Text className={`${largeText ? 'text-xl' : 'text-sm'} ${darkMode ? "text-slate-100" : "text-gray-900"}`}>{data?.address}</Text>
             </View>
           )}
         </View>
@@ -185,7 +185,7 @@ const ItemScreen = ({ route }) => {
               })
             }
           >
-            <Text className="text-xl font-semibold tracking-wider text-gray-100">
+            <Text className={`${largeText ? 'text-3xl' : 'text-xl'} font-semibold tracking-wider text-gray-100`}>
               Show Location on Map
             </Text>
           </TouchableOpacity>

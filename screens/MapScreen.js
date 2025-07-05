@@ -9,7 +9,7 @@ import { useTheme } from '../contexts/ThemeContext';
 
 const MapScreen = () => {
   const navigation = useNavigation();
-  const { darkMode, toggleTheme } = useTheme();
+  const { darkMode, largeText } = useTheme();
 
   const mapRef = useRef(null);
   const [mapReady, setMapReady] = useState(false);
@@ -95,7 +95,7 @@ const MapScreen = () => {
     return (
       <View style={styles.center} className={`${darkMode ? "bg-neutral-900" : "bg-neutral-100"}`}>
         <ActivityIndicator size="large" />
-        <Text>Getting current location...</Text>
+        <Text className={`${largeText ? 'text-2xl' : 'text-lg'} ${darkMode? "text-neutral-100" : "text-neutral-900"}`}>Getting current location...</Text>
       </View>
     );
   }
@@ -124,8 +124,8 @@ const MapScreen = () => {
                 onPress={() => navigation.navigate('ItemScreen', { param: place })}
                 >
                 <View style={{ width: 200, padding: 5 }} className={`px-4 py-4 rounded-xl ${darkMode ? "bg-neutral-900" : "bg-neutral-100"}`}>
-                    <Text className={`font-bold ${darkMode ? "text-neutral-100" : "text-neutral-900"}`}>{place?.name}</Text>
-                    <Text numberOfLines={2} className={`mb-4 ${darkMode ? "text-neutral-300" : "text-neutral-900"}`}>
+                    <Text className={`font-bold ${largeText ? 'text-2xl' : 'text-lg'} ${darkMode ? "text-neutral-100" : "text-neutral-900"}`}>{place?.name}</Text>
+                    <Text numberOfLines={2} className={`mb-4 ${largeText ? 'text-xl' : 'text-md'} ${darkMode ? "text-neutral-300" : "text-neutral-900"}`}>
                     {place?.address || place?.location_string}
                     </Text>
                     <TouchableOpacity
@@ -138,7 +138,7 @@ const MapScreen = () => {
                     }}
                     onPress={() => navigation.navigate('ItemScreen', { param: place })}
                     >
-                    <Text style={{ color: 'white', fontWeight: 'bold' }}>
+                    <Text style={{ color: 'white', fontWeight: 'bold' }} className={`text-neutral-100 font-bold ${largeText ? 'text-xl' : 'text-md'}`}>
                         Show Item →
                     </Text>
                     </TouchableOpacity>

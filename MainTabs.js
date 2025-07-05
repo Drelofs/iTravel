@@ -9,7 +9,7 @@ import { useTheme } from './contexts/ThemeContext';
 const Tab = createBottomTabNavigator();
 
 export default function MainTabs() {
-  const { darkMode } = useTheme();
+  const { darkMode, largeText } = useTheme();
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
@@ -32,6 +32,9 @@ export default function MainTabs() {
         tabBarStyle: {
           backgroundColor: darkMode ? '#000' : '#fff', // dark bg or white bg
           borderTopColor: darkMode ? '#000' : '#E5E7EB', // dark or light border
+        },
+        tabBarLabelStyle: {
+          fontSize: largeText ? 16 : 12, // ✅ scale label font size
         },
       })}
     >

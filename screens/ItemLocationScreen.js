@@ -8,7 +8,7 @@ import { useTheme } from '../contexts/ThemeContext';
 
 const ItemLocationScreen = () => {
   const navigation = useNavigation();
-  const { darkMode, toggleTheme } = useTheme();
+  const { darkMode, largeText } = useTheme();
   const route = useRoute();
   const { poiLocation, poiName } = route.params;
 
@@ -104,8 +104,8 @@ const ItemLocationScreen = () => {
         <TouchableOpacity onPress={() => navigation.goBack()} className={`w-10 h-10 rounded-md items-center justify-center ${darkMode? "bg-neutral-900" : "bg-white"}`}>
           <FontAwesome5 name="chevron-left" size={24} color="#D81B60" />
         </TouchableOpacity>
-        <View className={`${darkMode? "bg-neutral-900" : "bg-white"} p-2 rounded-md h-[36px]`}>
-          <Text className="text-lg black text-pink-600 font-semibold">
+        <View className={`flex-row justify-center items-center ${darkMode? "bg-neutral-900" : "bg-white"} p-2 rounded-md h-[36px]`}>
+          <Text className={`${largeText ? 'text-2xl' : 'text-lg'} black text-pink-600 font-semibold`}>
             {poiName?.length >28  ? `${poiName.slice(0,28)}...` : poiName}
           </Text>
         </View>

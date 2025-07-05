@@ -3,7 +3,7 @@ import React from 'react'
 import { useTheme } from '../contexts/ThemeContext';
 
 const MenuContainer = ({title, imageSrc, type, setType}) => {
-    const { darkMode, toggleTheme } = useTheme();
+    const { darkMode, largeText } = useTheme();
     const handlePress = () => {
         setType(title.toLowerCase())
     }
@@ -13,7 +13,7 @@ const MenuContainer = ({title, imageSrc, type, setType}) => {
                 <Image 
                     source={imageSrc} className="w-full h-full object-contain" />
             </View>
-            <Text className={`text-xl ${darkMode ? "text-slate-100" : "text-gray-900"} text-xl`}>{title}</Text>
+            <Text className={`${largeText ? 'text-2xl' : 'text-lg'} ${darkMode ? "text-slate-100" : "text-gray-900"}`}>{title}</Text>
         </TouchableOpacity>
     )
 }
