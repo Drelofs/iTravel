@@ -31,10 +31,10 @@ const ItemLocationScreen = () => {
     })();
   }, []);
 
-  // Zoom and center map on POI and user location when both are available
+  // Zoom and center map at user and poi
   useEffect(() => {
     if (mapRef.current && (userLocation || poiLocation)) {
-      // Calculate region that includes both user and POI or just POI if no user location
+      // Calculate region that includes both user and poi (if there's a user)
       const latitudes = [poiLocation.latitude];
       const longitudes = [poiLocation.longitude];
 

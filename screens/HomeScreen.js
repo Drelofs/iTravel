@@ -9,8 +9,11 @@ import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import ItemCardContainer from '../components/ItemCardContainer';
 import { useTheme } from '../contexts/ThemeContext';
 import { getPlacesData } from '../api';
+import Constants from 'expo-constants';
 
 const HomeScreen = () => {
+
+    const GOOGLE_PLACES_API_KEY = Constants.expoConfig.extra.GOOGLE_PLACES_API_KEY;
 
     const navigation = useNavigation();
     const { darkMode, largeText } = useTheme();
@@ -33,7 +36,7 @@ const HomeScreen = () => {
     }, []);
 
     useEffect(() => {
-        // Only fetch when all coordinates are set (after user selects from autocomplete)
+        // Only fetch when all coordinates are set from autocomplete
         if (bl_lat && bl_lng && tr_lat && tr_lng) {
             setIsLoading(true);
             getPlacesData(bl_lat, bl_lng, tr_lat, tr_lng, type).then(data => {
@@ -72,7 +75,7 @@ const HomeScreen = () => {
                         setHasSearched(true);
                     }}
                     query={{
-                        key: 'AIzaSyAKDlpICho17hF_JnMbX6nMXIFmQkuTFj0',
+                        key: GOOGLE_PLACES_API_KEY,
                         language: 'en',
                         types: 'geocode',
                     }}
@@ -110,7 +113,7 @@ const HomeScreen = () => {
                     predefinedPlacesAlwaysVisible={false}
                     styles={{
                         textInputContainer: {
-                            backgroundColor: darkMode ? '000' : '#fff',   // background behind the text input
+                            backgroundColor: darkMode ? '000' : '#fff',
                             borderRadius: 10,
                             marginHorizontal: 0,
                             marginTop: 0,
@@ -118,7 +121,7 @@ const HomeScreen = () => {
                             borderTopWidth: 0,
                           },
                           textInput: {
-                            backgroundColor: darkMode ? '#000' : '#fff',   // the input field itself
+                            backgroundColor: darkMode ? '#000' : '#fff',
                             color: darkMode ? '#fff' : '#000',
                             borderRadius: 10,
                             fontSize: largeText ? 18 : 14,
@@ -127,12 +130,12 @@ const HomeScreen = () => {
                             paddingHorizontal: 10,
                           },
                           listView: {
-                            backgroundColor: darkMode ? '#000' : '#fff',  // dropdown list background
+                            backgroundColor: darkMode ? '#000' : '#fff', 
                             borderRadius: 10,
                             marginHorizontal: 0,
                           },
                           row: {
-                            backgroundColor: darkMode ? '#000' : '#fff', // each item
+                            backgroundColor: darkMode ? '#000' : '#fff',
                             padding: 13,
                             height: 44,
                             flexDirection: 'row',
@@ -143,10 +146,10 @@ const HomeScreen = () => {
                             borderTopColor: darkMode ? '#444' : '#ccc',
                           },
                           powered: {
-                            tintColor: darkMode ? '#aaa' : '#666', // color of the Google logo
+                            tintColor: darkMode ? '#aaa' : '#666', 
                           },
                           description: {
-                            color: darkMode ? '#eee' : '#444',            // text color of autocomplete rows
+                            color: darkMode ? '#eee' : '#444', 
                             fontSize: largeText ? 16 : 13
                           },
                           predefinedPlacesDescription: {

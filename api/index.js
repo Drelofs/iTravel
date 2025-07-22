@@ -1,7 +1,10 @@
 import axios from "axios";
+import Constants from 'expo-constants';
 
 export const getPlacesData = async (bl_lat, bl_lng, tr_lat, tr_lng, type) => {
     try {
+        const RAPID_API_KEY = Constants.expoConfig.extra.RAPID_API_KEY;
+        console.log(RAPID_API_KEY);
         const {data : {data}} = await axios.get(`https://travel-advisor.p.rapidapi.com/${type}/list-in-boundary`,
             {
                 params: {
@@ -15,7 +18,7 @@ export const getPlacesData = async (bl_lat, bl_lng, tr_lat, tr_lng, type) => {
                     lang: 'en_US'
                 },
                 headers: {
-                    'x-rapidapi-key': 'd3083dcd03mshf7970377bcc4ec1p1ce5f8jsn917f9341cee3',
+                    'x-rapidapi-key': RAPID_API_KEY,
                     'x-rapidapi-host': 'travel-advisor.p.rapidapi.com'
                 }
             }
