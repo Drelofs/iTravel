@@ -148,12 +148,6 @@ const MapScreen = () => {
             )
         ))}
       </MapView>
-
-      <SafeAreaView style={styles.backButtonContainer}>
-        <TouchableOpacity onPress={() => navigation.goBack()} className={`w-10 h-10 rounded-md items-center justify-center ${darkMode? "bg-neutral-900" : "bg-white"}`}>
-          <FontAwesome5 name="chevron-left" size={24} color="#D81B60" />
-        </TouchableOpacity>
-      </SafeAreaView>
     </View>
   );
 };
