@@ -9,11 +9,11 @@ const MenuContainer = ({title, imageSrc, type, setType}) => {
     }
     return (
         <TouchableOpacity className="items-center justify-center gap-y-2" onPress={handlePress}>
-            <View className={`w-24 h-24 p-4 shadow-sm rounded-xl items-center justify-center ${type === title.toLowerCase() ? "bg-pink-600" : ""}`}>
+            {/* <View className={`p-4 shadow-sm rounded-xl items-center justify-center`}>
                 <Image 
                     source={imageSrc} className="w-full h-full object-contain" />
-            </View>
-            <Text className={`${largeText ? 'text-2xl' : 'text-lg'} ${darkMode ? "text-slate-100" : "text-gray-900"}`}>{title}</Text>
+            </View> */}
+            <Text className={`py-2 px-4 rounded-xl ${largeText ? 'text-2xl' : 'text-lg'} ${darkMode ? "text-slate-100" : "text-gray-900"} ${type === title.toLowerCase() ? "bg-pink-600" : ""}`}>{title}</Text>
         </TouchableOpacity>
     )
 }

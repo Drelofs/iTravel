@@ -1,6 +1,7 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from './screens/HomeScreen';
+import MapScreen from './screens/MapScreen';
 import SavedScreen from './screens/SavedScreen';
 import SettingsScreen from './screens/SettingsScreen';
 import { Ionicons } from '@expo/vector-icons';
@@ -19,6 +20,8 @@ export default function MainTabs() {
 
           if (route.name === 'Home') {
             iconName = focused ? 'home' : 'home-outline';
+          } else if (route.name === 'Map') {
+            iconName = focused ? 'map' : 'map-outline';
           } else if (route.name === 'Saved') {
             iconName = focused ? 'bookmark' : 'bookmark-outline';
           } else if (route.name === 'Settings') {
@@ -38,8 +41,9 @@ export default function MainTabs() {
         },
       })}
     >
-      {/* <Tab.Screen name="Home" component={HomeScreen} /> */}
+
       <Tab.Screen name="Home" component={HomeScreen} />
+      <Tab.Screen name="Map" component={MapScreen} />
       <Tab.Screen name="Saved" component={SavedScreen} />
       <Tab.Screen name="Settings" component={SettingsScreen}/>
     </Tab.Navigator>

@@ -18,7 +18,7 @@ const HomeScreen = () => {
     const navigation = useNavigation();
     const { darkMode, largeText } = useTheme();
 
-    const [type, setType] = useState("restaurants")
+    const [type, setType] = useState("attractions")
 
     const [isLoading, setIsLoading] = useState(false);
     const [hasSearched, setHasSearched] = useState(false);
@@ -50,11 +50,7 @@ const HomeScreen = () => {
 
     return (
         <SafeAreaView className={`flex-1 ${darkMode ? "bg-neutral-900" : "bg-neutral-100"}`}>
-            <View className="flex-row items-center justify-between px-8">
-                <View>
-                    <Text className="text-pink-600 text-[36px]">iTravel</Text>
-                </View>
-
+            <View className="flex-row justify-end px-4">
                 <View>
                     <TouchableOpacity onPress={() => navigation.navigate("MapScreen")} className="border border-pink-600 w-12 h-12 rounded-md items-center justify-center">
                         <MaterialCommunityIcons name="google-maps" size={24} color="#D81B60" />
@@ -62,7 +58,13 @@ const HomeScreen = () => {
                 </View>
             </View>
 
-            <View className={`flex-row items-center ${darkMode ? "bg-black border-gray-800" : "bg-white border-gray-300" } border-2 mx-4 rounded-xl py-1 px-2 mt-4`}>
+            <View className="px-4 py-6">
+                <View>
+                    <Text className="text-pink-600 text-4xl">What location do you want to visit?</Text>
+                </View>
+            </View>
+
+            <View className={`flex-row justify-center items-center ${darkMode ? "bg-black border-gray-800" : "bg-white border-gray-300" } mx-4 rounded-xl px-2 pt-1 mt-4`}>
                 <GooglePlacesAutocomplete
                     placeholder="Search"
                     GooglePlacesDetailsQuery={{fields : "geometry"}}
@@ -114,7 +116,7 @@ const HomeScreen = () => {
                     styles={{
                         textInputContainer: {
                             backgroundColor: darkMode ? '000' : '#fff',
-                            borderRadius: 10,
+                            borderRadius: 16,
                             marginHorizontal: 0,
                             marginTop: 0,
                             borderBottomWidth: 0,
@@ -123,15 +125,15 @@ const HomeScreen = () => {
                           textInput: {
                             backgroundColor: darkMode ? '#000' : '#fff',
                             color: darkMode ? '#fff' : '#000',
-                            borderRadius: 10,
-                            fontSize: largeText ? 18 : 14,
+                            borderRadius: 16,
+                            fontSize: largeText ? 20 : 16,
                             height: 40,
                             paddingVertical: 5,
                             paddingHorizontal: 10,
                           },
                           listView: {
                             backgroundColor: darkMode ? '#000' : '#fff', 
-                            borderRadius: 10,
+                            borderRadius: 16,
                             marginHorizontal: 0,
                           },
                           row: {
@@ -176,7 +178,14 @@ const HomeScreen = () => {
             ) : ( 
                 <ScrollView>
                     {hasSearched && (
-                    <View className="flex-row items-center justify-between px-8 mt-8">
+                    <View className="flex-row items-center justify-between px-4 mt-4">
+                        <MenuContainer 
+                            key={"attractions"}
+                            title="Attractions"
+                            imageSrc={Attractions}
+                            type={type}
+                            setType={setType}
+                        />
                         <MenuContainer 
                             key={"restaurants"}
                             title="Restaurants"
@@ -188,13 +197,6 @@ const HomeScreen = () => {
                             key={"hotels"}
                             title="Hotels"
                             imageSrc={Hotels}
-                            type={type}
-                            setType={setType}
-                        />
-                        <MenuContainer 
-                            key={"attractions"}
-                            title="Attractions"
-                            imageSrc={Attractions}
                             type={type}
                             setType={setType}
                         />
@@ -222,7 +224,7 @@ const HomeScreen = () => {
                             ) : (
                                 <>
                                     <View className="w-full h-[200px] items-center gap-8 justify-center">
-                                        <Text className={`${largeText ? 'text-2xl' : 'text-lg'} ${darkMode ? "text-slate-100" : "text-gray-900"} text-xl}`}>
+                                        <Text className={`${largeText ? 'text-2xl' : 'text-lg'} text-pink-600 text-xl}`}>
                                             {hasSearched ? "No Results found..." : "Search a location to get started!"}
                                         </Text>
                                     </View>
