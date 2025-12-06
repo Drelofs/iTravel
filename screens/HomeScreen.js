@@ -1,4 +1,4 @@
-import { View, Text, SafeAreaView, ScrollView, Pressable, Keyboard, ActivityIndicator } from 'react-native'
+import { View, Text, SafeAreaView, ScrollView, Keyboard, ActivityIndicator } from 'react-native' 
 import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { useNavigation } from '@react-navigation/native'
 import { Hotels, Attractions, Restaurants } from '../assets';
@@ -11,15 +11,11 @@ import { getPlacesData } from '../api';
 import SearchAutocomplete from '../components/SearchAutocomplete'; 
 
 const HomeScreen = () => {
-    // Removed: GOOGLE_PLACES_API_KEY
-    // Removed: autoCompleteRef, inputFocused, inputText, isListOpen
-
     const navigation = useNavigation();
     const { darkMode, largeText } = useTheme();
 
     const [type, setType] = useState("attractions")
     
-    // Search-related states remain here, as they trigger the data fetching
     const [isLoading, setIsLoading] = useState(false);
     const [hasSearched, setHasSearched] = useState(false);
     const [mainData, setMainData] = useState([]);
@@ -46,23 +42,19 @@ const HomeScreen = () => {
         }
     }, [bl_lat, bl_lng, tr_lat, tr_lng, type]);
 
+
     return (
-        <Pressable
-            style={{ flex: 1 }}
-            onPress={() => {
-                // This global dismiss logic now primarily focuses on the keyboard.
-                Keyboard.dismiss();
-            }}
-        >
+        <View style={{ flex: 1 }}>
             <SafeAreaView className={`flex-1 ${darkMode ? "bg-neutral-900" : "bg-white"}`}>
 
+                {/* Fixed Header */}
                 <View className="px-4 py-2">
                     <View>
                         <Text className="text-pink-600 text-4xl font-light w-2/3">Find your favorite place</Text>
                     </View>
                 </View>
 
-                {/* RENDER THE NEW COMPONENT, PASSING STATE SETTERS */}
+                {/* Fixed Search Autocomplete (Outside ScrollView) */}
                 <SearchAutocomplete
                     setBl_lat={setBl_lat}
                     setBl_lng={setBl_lng}
@@ -71,13 +63,17 @@ const HomeScreen = () => {
                     setHasSearched={setHasSearched}
                 />
                 
-                {/* Menu container */}
+                {/* Scrollable Content */}
                 {isLoading ? (
                     <View className="flex-1 items-center justify-center">
                         <ActivityIndicator size="large" color="#D81B60" />
                     </View> 
                 ) : ( 
-                    <ScrollView>
+                    <ScrollView 
+                        style={{ flex: 1 }} 
+                        // CRITICAL: Ensures taps on search results are handled.
+                        keyboardShouldPersistTaps="handled" 
+                    >
                         {hasSearched && (
                         <View className="flex-row items-center justify-between px-4 mt-4">
                             <MenuContainer 
@@ -136,7 +132,7 @@ const HomeScreen = () => {
                     </ScrollView>
                 )}
             </SafeAreaView>
-        </Pressable>
+        </View>
     )
 }
 
