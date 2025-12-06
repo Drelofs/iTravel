@@ -28,7 +28,6 @@ const SearchAutocomplete = ({
     const dismissSearch = () => {
         Keyboard.dismiss();
         setInputFocused(false);
-        autoCompleteRef.current?.blur();
     };
 
     // Define permanent shadow properties
@@ -53,13 +52,14 @@ const SearchAutocomplete = ({
                 
                 ...shadowStyle,
                 
-                // CRITICAL FIX: Ensure proper stacking context
+                // Keep high zIndex and position for proper stacking context
                 zIndex: 9999, 
                 position: 'relative', 
             }}
         >
             <GooglePlacesAutocomplete
                 ref={autoCompleteRef}
+                keyboardShouldPersistTaps="handled"
                 renderLeftButton={() => (
                     <View className="justify-center pl-3">
                         <EvilIcons
@@ -73,6 +73,7 @@ const SearchAutocomplete = ({
                 GooglePlacesDetailsQuery={{ fields: "geometry" }}
                 fetchDetails={true}
                 onPress={(data, details = null) => {
+                    // This is the function that must be allowed to complete!
                     setBl_lat(details?.geometry?.viewport?.southwest?.lat);
                     setBl_lng(details?.geometry?.viewport?.southwest?.lng);
                     setTr_lat(details?.geometry?.viewport?.northeast?.lat);
@@ -99,6 +100,9 @@ const SearchAutocomplete = ({
                 predefinedPlaces={[]} 
                 predefinedPlacesAlwaysVisible={false}
                 filterReverseGeocodingByTypes={[]} 
+                
+                // 🚀 FIX 1: Disable the powered-by container to simplify the touch/view hierarchy
+                enablePoweredByContainer={false}
 
                 styles={{
                     textInputContainer: {
@@ -145,16 +149,6 @@ const SearchAutocomplete = ({
                         height: 44,
                         flexDirection: "row",
                     },
-                    poweredContainer: {
-                        backgroundColor: darkMode ? "#000" : "#f5f5f5",
-                        borderTopWidth: 0,
-                        padding: 10,
-                        borderBottomLeftRadius: 16,
-                        borderBottomRightRadius: 16,
-                    },
-                    powered: {
-                        tintColor: darkMode ? "#aaa" : "#666",
-                    },
                     description: {
                         color: darkMode ? "#eee" : "#444",
                         fontSize: largeText ? 16 : 13,
@@ -166,15 +160,19 @@ const SearchAutocomplete = ({
 
                 textInputProps={{
                     placeholderTextColor: darkMode ? "#888" : "#888",
+                  
                     onFocus: () => setInputFocused(true),
-                    // Standard delay (150ms) to allow press events to complete before list closes
+                  
+                    // ❗️IMPORTANT: Do NOT close list immediately on blur
                     onBlur: () => {
-                        setTimeout(() => {
-                            setInputFocused(false);
-                        }, 150); 
+                      setTimeout(() => {
+                        setInputFocused(false);
+                      }, 150); // allows row press to register on real devices
                     },
-                    onChangeText: (text) => setInputText(text)
-                }}
+                  
+                    onChangeText: (text) => setInputText(text),
+                  }}
+                  
 
                 suppressDefaultStyles={true}
                 textInputHide={false}
