@@ -1,6 +1,6 @@
 import { View, Text, Switch } from 'react-native';
 import React from 'react';
-import { SafeAreaView } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTheme } from '../contexts/ThemeContext';
 
 const SettingsScreen = () => {

@@ -1,4 +1,5 @@
-import { View, Text, SafeAreaView, ScrollView, Keyboard, ActivityIndicator } from 'react-native' 
+import { View, Text, ScrollView, ActivityIndicator } from 'react-native' 
+import { SafeAreaView } from 'react-native-safe-area-context';
 import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { useNavigation } from '@react-navigation/native'
 import { Hotels, Attractions, Restaurants } from '../assets';

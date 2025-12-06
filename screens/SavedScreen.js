@@ -1,5 +1,6 @@
 import React, { useState, useCallback } from 'react';
-import { View, Text, ScrollView, SafeAreaView } from 'react-native';
+import { View, Text, ScrollView } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import ItemCardContainer from '../components/ItemCardContainer';
 import { useFocusEffect } from '@react-navigation/native';

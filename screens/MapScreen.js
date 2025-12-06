@@ -1,4 +1,4 @@
-import { View, Text, SafeAreaView, TouchableOpacity, StyleSheet, ActivityIndicator } from 'react-native'
+import { View, Text, TouchableOpacity, StyleSheet, ActivityIndicator } from 'react-native'
 import React, { useRef, useLayoutEffect, useEffect, useState } from 'react';
 import { useNavigation } from '@react-navigation/native'
 import MapView, { Marker, Callout } from 'react-native-maps';
