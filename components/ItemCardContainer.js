@@ -7,6 +7,7 @@ import { useTheme } from '../contexts/ThemeContext';
 const ItemCardContainer = ({image, title, location, data} ) => {
     const navigation = useNavigation();
     const { darkMode, largeText } = useTheme();
+    console.log(data)
     return (
         <TouchableOpacity onPress={() => navigation.navigate("ItemScreen", {param: data})} className={`gap-2 rounded-xl ${darkMode ? "bg-neutral-800" : "bg-white border border-slate-200"} w-full overflow-hidden my-2`}>
             <Image 
