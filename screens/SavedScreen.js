@@ -25,7 +25,7 @@ const SavedScreen = () => {
     <SafeAreaView className={`flex-1 ${darkMode ? "bg-neutral-900" : "bg-neutral-100"} relative`}>
       <View className="flex-row justify-center items-center mt-4">
         <Text className="text-3xl font-semibold text-pink-600">
-          Saved Locations
+          Saved
         </Text>
       </View>
       <ScrollView className="p-4">
