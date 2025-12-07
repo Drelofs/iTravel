@@ -80,7 +80,7 @@ const ItemScreen = ({ route }) => {
           size={48}
           iconSize={24}
           darkMode={darkMode}
-          color="#D81B60"
+          color="#2E7D32"
         />
       </SafeAreaView>
 
@@ -98,7 +98,7 @@ const ItemScreen = ({ route }) => {
         {/* 4. CONTENT CONTAINER */}
         <View
           style={{ marginTop: CONTENT_MARGIN_TOP }}
-          className={`flex-1 ${contentBgColor} rounded-t-[30px]`}
+          className={`px-4 flex-1 ${contentBgColor} rounded-t-[30px]`}
         >
             {/* SCROLL INDICATOR STRIPE */}
             <View className="w-full items-center py-4">
@@ -107,14 +107,14 @@ const ItemScreen = ({ route }) => {
           
           {/* NAME & LOCATION */}
           <View className="mt-2 px-4">
-            <Text className={`text-pink-600 ${largeText ? 'text-4xl' : 'text-2xl'} font-bold`}>
+            <Text className={`font-chillaxregular text-gray-900 ${largeText ? 'text-6xl' : 'text-4xl'} font-bold`}>
               {data?.name}
             </Text>
 
             <View className="flex-row items-center gap-2 mt-2">
               <FontAwesome name="map-marker" size={25} color="#FF0000" />
-              <Text className={`text-pink-300 ${largeText ? 'text-2xl' : 'text-lg'} font-bold`}>
-                {data?.location_string}
+              <Text className={`text-green-800 ${largeText ? 'text-2xl' : 'text-lg'} font-bold`}>
+                {data?.address_obj?.city}
               </Text>
             </View>
           </View>

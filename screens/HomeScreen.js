@@ -41,7 +41,7 @@ const HomeScreen = () => {
     <>
       {/* Header */}
       <View className="py-2 mt-2">
-        <Text className="font-chillaxregular text-green-950 text-4xl w-2/3">
+        <Text className="font-chillaxregular text-green-800 text-4xl w-2/3">
           Find your favorite place
         </Text>
       </View>

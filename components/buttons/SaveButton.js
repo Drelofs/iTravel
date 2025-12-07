@@ -8,7 +8,7 @@ const SaveButton = ({
   size = 48,
   iconSize = 24,
   darkMode = false,
-  color = '#D81B60',
+  color,
 }) => {
   const [isSaved, setIsSaved] = useState(false);
 
