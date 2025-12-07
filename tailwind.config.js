@@ -9,7 +9,13 @@ module.exports = {
   ],
   darkMode: "selector",
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        chillaxextralight: ["Chillax-Extralight"],
+        chillaxlight: ["Chillax-Light"],
+        chillaxregular: ["Chillax-Regular"]
+      },
+    },
   },
   plugins: [],
 };

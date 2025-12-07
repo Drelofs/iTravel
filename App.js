@@ -1,6 +1,7 @@
 import 'react-native-gesture-handler';
 import 'react-native-reanimated';
 import { NavigationContainer } from '@react-navigation/native';
+import { useFonts } from 'expo-font';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import MainTabs from './MainTabs';
 import ItemScreen from './screens/ItemScreen';
@@ -14,6 +15,13 @@ const Stack = createNativeStackNavigator();
 
 function AppWrapper() {
   const { darkMode } = useTheme();
+  const [loaded] = useFonts({
+    'Chillax-Extralight': require('./assets/fonts/Chillax/Chillax-Extralight.otf'),
+    'Chillax-Light': require('./assets/fonts/Chillax/Chillax-Light.otf'),
+    'Chillax-Regular': require('./assets/fonts/Chillax/Chillax-Regular.otf')
+  });
+
+  if (!loaded) return null;
 
   return (
     <View className={darkMode ? 'flex-1 dark' : 'flex-1'}>

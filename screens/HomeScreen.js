@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, ActivityIndicator } from 'react-native';
+import { View, Text, ActivityIndicator, FlatList } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
@@ -31,98 +31,100 @@ const HomeScreen = () => {
       setIsLoading(true);
       getPlacesData(bl_lat, bl_lng, tr_lat, tr_lng, type).then(data => {
         setMainData(data);
-        setIsLoading(false); // remove artificial delay
+        setIsLoading(false);
       });
     }
   }, [bl_lat, bl_lng, tr_lat, tr_lng, type]);
 
+  // ✅ HEADER + SEARCH + MENU (SCROLLS WITH LIST)
+  const ListHeader = () => (
+    <>
+      {/* Header */}
+      <View className="py-2 mt-2">
+        <Text className="font-chillaxregular text-green-950 text-4xl w-2/3">
+          Find your favorite place
+        </Text>
+      </View>
+
+      {/* Search */}
+      <SearchAutocomplete
+        setBl_lat={setBl_lat}
+        setBl_lng={setBl_lng}
+        setTr_lat={setTr_lat}
+        setTr_lng={setTr_lng}
+        setHasSearched={setHasSearched}
+      />
+
+      {/* Menu */}
+      {hasSearched && (
+        <View className="flex-row items-center justify-between py-2 mt-4">
+          <MenuContainer
+            title="Attractions"
+            iconName="attractions"
+            imageSrc={Attractions}
+            type={type}
+            setType={setType}
+          />
+          <MenuContainer
+            title="Restaurants"
+            iconName="restaurant"
+            imageSrc={Restaurants}
+            type={type}
+            setType={setType}
+          />
+          <MenuContainer
+            title="Hotels"
+            iconName="local-hotel"
+            imageSrc={Hotels}
+            type={type}
+            setType={setType}
+          />
+        </View>
+      )}
+
+      {/* Loader directly below menu */}
+      {isLoading && (
+        <View className="items-center justify-center mt-10">
+          <ActivityIndicator size="large" color="#D81B60" />
+        </View>
+      )}
+    </>
+  );
+
   return (
-    <View style={{ flex: 1 }}>
-      <SafeAreaView className={`flex-1 ${darkMode ? "bg-neutral-900" : "bg-white"}`}>
-
-        {/* Fixed Header */}
-        <View className="px-4 py-2">
-          <Text className="text-pink-600 text-4xl font-light w-2/3">
-            Find your favorite place
-          </Text>
-        </View>
-
-        {/* Fixed Search Autocomplete */}
-        <SearchAutocomplete
-          setBl_lat={setBl_lat}
-          setBl_lng={setBl_lng}
-          setTr_lat={setTr_lat}
-          setTr_lng={setTr_lng}
-          setHasSearched={setHasSearched}
+    <SafeAreaView className="flex-1">
+    <FlatList
+        data={isLoading ? [] : mainData}
+        keyExtractor={(_, i) => i.toString()}
+        numColumns={1}
+        contentContainerStyle={{ paddingHorizontal: 16, paddingBottom: 40 }}
+        ListHeaderComponent={ListHeader}
+        keyboardShouldPersistTaps="handled"
+        renderItem={({ item }) => (
+        <ItemCardContainer
+            image={
+            item?.photo?.images?.large?.url
+                ? item?.photo?.images?.large?.url
+                : "https://static.thenounproject.com/png/2932881-200.png"
+            }
+            title={item?.name}
+            location={item?.location_string}
+            data={item}
         />
-
-        {/* Menu Row: Always visible after search */}
-        {hasSearched && (
-          <View className="flex-row items-center justify-between px-4 py-4 mt-4">
-            <MenuContainer
-              key={"attractions"}
-              title="Attractions"
-              imageSrc={Attractions}
-              type={type}
-              setType={setType}
-            />
-            <MenuContainer
-              key={"restaurants"}
-              title="Restaurants"
-              imageSrc={Restaurants}
-              type={type}
-              setType={setType}
-            />
-            <MenuContainer
-              key={"hotels"}
-              title="Hotels"
-              imageSrc={Hotels}
-              type={type}
-              setType={setType}
-            />
-          </View>
         )}
-
-        {/* Content Area */}
-        <View style={{ flex: 1 }}>
-          {isLoading ? (
-            <View className="flex-1 items-center justify-center">
-              <ActivityIndicator size="large" color="#D81B60" />
+        ListEmptyComponent={
+        !isLoading && (
+            <View className="w-full h-[200px] items-center gap-8 justify-center">
+            <Text className={`${largeText ? 'text-2xl' : 'text-lg'} text-pink-600`}>
+                {hasSearched
+                ? "No Results found..."
+                : "Search a location to get started!"}
+            </Text>
             </View>
-          ) : (
-            <ScrollView
-              style={{ flex: 1 }}
-              keyboardShouldPersistTaps="handled"
-            >
-              <View className="px-4 mt-8 flex-row items-center flex-wrap w-full gap-4">
-                {mainData?.length > 0 ? (
-                  mainData.map((data, i) => (
-                    <ItemCardContainer
-                      key={i}
-                      image={
-                        data?.photo?.images?.large?.url
-                          ? data?.photo?.images?.large?.url
-                          : "https://static.thenounproject.com/png/2932881-200.png"
-                      }
-                      title={data?.name}
-                      location={data?.location_string}
-                      data={data}
-                    />
-                  ))
-                ) : (
-                  <View className="w-full h-[200px] items-center gap-8 justify-center">
-                    <Text className={`${largeText ? 'text-2xl' : 'text-lg'} text-pink-600`}>
-                      {hasSearched ? "No Results found..." : "Search a location to get started!"}
-                    </Text>
-                  </View>
-                )}
-              </View>
-            </ScrollView>
-          )}
-        </View>
-
-      </SafeAreaView>
-    </View>
+        )
+        }
+    />
+    </SafeAreaView>
   );
 };
 

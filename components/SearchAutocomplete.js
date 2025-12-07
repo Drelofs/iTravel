@@ -47,7 +47,6 @@ const SearchAutocomplete = ({
         <View
             style={{
                 justifyContent: "center",
-                marginHorizontal: 16,
                 marginTop: 16,
                 
                 ...shadowStyle,
@@ -115,8 +114,6 @@ const SearchAutocomplete = ({
                         borderTopRightRadius: 16,
                         borderBottomLeftRadius: isListOpen ? 0 : 16,
                         borderBottomRightRadius: isListOpen ? 0 : 16,
-
-                        paddingHorizontal: 4,
                         width: "100%", 
                         borderWidth: 0, 
                         borderBottomWidth: 0, 
