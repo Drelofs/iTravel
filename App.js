@@ -18,7 +18,8 @@ function AppWrapper() {
   const [loaded] = useFonts({
     'Chillax-Extralight': require('./assets/fonts/Chillax/Chillax-Extralight.otf'),
     'Chillax-Light': require('./assets/fonts/Chillax/Chillax-Light.otf'),
-    'Chillax-Regular': require('./assets/fonts/Chillax/Chillax-Regular.otf')
+    'Chillax-Regular': require('./assets/fonts/Chillax/Chillax-Regular.otf'),
+    'Chillax-Semibold': require('./assets/fonts/Chillax/Chillax-Semibold.otf')
   });
 
   if (!loaded) return null;

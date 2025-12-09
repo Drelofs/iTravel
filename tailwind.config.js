@@ -13,7 +13,8 @@ module.exports = {
       fontFamily: {
         chillaxextralight: ["Chillax-Extralight"],
         chillaxlight: ["Chillax-Light"],
-        chillaxregular: ["Chillax-Regular"]
+        chillaxregular: ["Chillax-Regular"],
+        chillaxsemibold: ['Chillax-Semibold']
       },
     },
   },

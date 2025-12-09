@@ -107,13 +107,13 @@ const ItemScreen = ({ route }) => {
           
           {/* NAME & LOCATION */}
           <View className="mt-2 px-4">
-            <Text className={`font-chillaxregular text-gray-900 ${largeText ? 'text-6xl' : 'text-4xl'} font-bold`}>
+            <Text className={`font-chillaxsemibold text-gray-900 ${largeText ? 'text-6xl' : 'text-4xl'} font-bold`}>
               {data?.name}
             </Text>
 
             <View className="flex-row items-center gap-2 mt-2">
-              <FontAwesome name="map-marker" size={25} color="#FF0000" />
-              <Text className={`text-green-800 ${largeText ? 'text-2xl' : 'text-lg'} font-bold`}>
+              <FontAwesome name="map-marker" size={25} color="#2E7D32" />
+              <Text className={`text-gray-500 ${largeText ? 'text-2xl' : 'text-lg'} font-bold`}>
                 {data?.address_obj?.city}
               </Text>
             </View>
@@ -123,12 +123,12 @@ const ItemScreen = ({ route }) => {
           <View className="mt-4 flex-row items-center justify-between px-4">
             {data?.rating && (
               <View className="flex-row items-center gap-2">
-                <View className="w-12 h-12 rounded-2xl bg-pink-300 items-center justify-center shadow-md">
-                  <FontAwesome name="star" size={24} color="#D81B60" />
+                <View className="w-12 h-12 rounded-2xl border border-1 border-green-800 items-center justify-center shadow-md">
+                  <FontAwesome name="star" size={24} color="#2E7D32" />
                 </View>
                 <View>
-                  <Text className={`${darkMode ? 'text-slate-100' : 'text-gray-900'}`}>{data?.rating}</Text>
-                  <Text className={`${darkMode ? 'text-slate-100' : 'text-gray-900'}`}>Ratings</Text>
+                  <Text className={`${darkMode ? 'text-slate-100' : 'text-gray-700'}`}>Ratings</Text>
+                  <Text className={`font-bold ${darkMode ? 'text-slate-100' : 'text-gray-900'}`}>{data?.rating}/5</Text>
                 </View>
               </View>
             )}
