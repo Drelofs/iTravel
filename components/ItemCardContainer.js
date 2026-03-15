@@ -4,6 +4,7 @@ import React from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { useTheme } from '../contexts/ThemeContext';
 import SaveButton from './buttons/SaveButton';
+import { LinearGradient } from 'expo-linear-gradient';
 
 const ItemCardContainer = ({ image, title, location, data, onSavedChange }) => {
   const navigation = useNavigation();
@@ -12,15 +13,27 @@ const ItemCardContainer = ({ image, title, location, data, onSavedChange }) => {
   return (
     <TouchableOpacity
       onPress={() => navigation.navigate('ItemScreen', { param: data })}
-      className={`gap-2 rounded-3xl ${
+      className={`gap-1 rounded-3xl ${
         darkMode ? 'bg-neutral-800' : 'bg-white border border-slate-50'
       } w-full overflow-hidden my-2`}
     >
-      {/* Image + save icon */}
-      <View className="relative w-full h-60">
-        <Image source={{ uri: image }} className="w-full h-60 object-cover" />
+      <View className="relative w-full h-80">
+        <Image source={{ uri: image }} className="w-full h-full object-cover" />
 
-        <View className="absolute top-3 right-3">
+        {/* Bottom gradient overlay for text readability */}
+        <LinearGradient
+          colors={['rgba(0,0,0,0)', 'rgba(0,0,0,0.75)']}
+          start={{ x: 0.5, y: 0 }}
+          end={{ x: 0.5, y: 1 }}
+          style={{
+            position: 'absolute',
+            left: 0,
+            right: 0,
+            bottom: 0,
+            height: 140,
+          }}
+        />
+        <View className="absolute top-3 right-3 z-30">
           <SaveButton
             locationData={data}
             size={40}
@@ -30,28 +43,27 @@ const ItemCardContainer = ({ image, title, location, data, onSavedChange }) => {
             onSavedChange={onSavedChange}
           />
         </View>
-      </View>
-
-      {title ? (
-        <View className="px-4 pb-4 pt-2">
-          <Text
-            className={`font-chillaxsemibold ${largeText ? 'text-4xl' : 'text-3xl'} ${
-              darkMode ? 'text-slate-100' : 'text-gray-900'
-            } font-bold mb-2`}
-          >
-            {title?.length > 28 ? `${title.slice(0, 28)}...` : title}
-          </Text>
-
-          <View className="flex-row items-center gap-1">
-            <FontAwesome name="map-marker" size={20} color="#2E7D32" />
+        {title ? (
+          <View className="absolute bottom-4 px-4 pt-2 z-20">
             <Text
-              className={`${largeText ? 'text-xl' : 'text-md'} text-gray-500 font-bold`}
+              className={`font-chillaxsemibold ${
+                largeText ? 'text-4xl' : 'text-3xl'
+              } text-slate-100 font-bold mb-2`}
             >
-              {data?.address_obj?.city} - {data?.address_obj?.country}
+              {title?.length > 28 ? `${title.slice(0, 28)}...` : title}
             </Text>
+
+            <View className="flex-row items-center gap-1">
+              <FontAwesome name="map-marker" size={20} color="#F1F5F9" />
+              <Text
+                className={`${largeText ? 'text-xl' : 'text-md'} text-slate-100 font-bold`}
+              >
+                {data?.address_obj?.city} - {data?.address_obj?.country}
+              </Text>
+            </View>
           </View>
-        </View>
-      ) : null}
+        ) : null}
+      </View>
     </TouchableOpacity>
   );
 }

@@ -22,28 +22,38 @@ const SavedScreen = () => {
   );
 
   return (
-    <SafeAreaView className={`${darkMode ? "bg-neutral-900" : "bg-neutral-100"} relative`}>
+    <SafeAreaView
+      className={`${
+        savedLocations.length === 0 ? 'flex-1' : ''
+      } ${darkMode ? 'bg-neutral-900' : 'bg-neutral-100'} relative`}
+    >
       <View className="flex-row justify-center items-center my-4">
-        <Text className="text-3xl font-semibold text-green-800">
-          Saved
-        </Text>
+        <Text className="text-3xl font-semibold text-green-800">Saved Locations</Text>
       </View>
-      <ScrollView className="px-4">
-        {savedLocations.length === 0 ? (
-          <View className="h-80 w-full flex-1 items-center justify-center">
-            <Text className={`${darkMode ? "text-slate-100" : "text-gray-900"} text-xl`}>You haven't saved any locations yet.</Text>
-          </View>      
-        ) : (
-          savedLocations.map((loc, i) => (
+
+      {savedLocations.length === 0 ? (
+        <View className="flex-1 items-center justify-center px-4">
+          <Text
+            className={`${
+              darkMode ? 'text-slate-100' : 'text-gray-900'
+            } text-xl text-center`}
+          >
+            You haven't saved any locations yet.
+          </Text>
+        </View>
+      ) : (
+        <ScrollView className="px-4">
+          {savedLocations.map((loc, i) => (
             <ItemCardContainer
               key={i}
-              image={loc?.photo?.images?.medium?.url ?? 'https://static.thenounproject.com/png/2932881-200.png'}
+              image={
+                loc?.photo?.images?.medium?.url ??
+                'https://static.thenounproject.com/png/2932881-200.png'
+              }
               title={loc?.name}
               location={loc?.location_string}
               data={loc}
               onSavedChange={(isSavedNow, location) => {
-                // If an item is unsaved from the Saved screen, immediately
-                // remove it from the in-memory list so the UI refreshes.
                 if (!isSavedNow) {
                   setSavedLocations(prev =>
                     prev.filter(
@@ -57,9 +67,9 @@ const SavedScreen = () => {
                 }
               }}
             />
-          ))
-        )}
-      </ScrollView>
+          ))}
+        </ScrollView>
+      )}
     </SafeAreaView>
   );
 };
