@@ -1,13 +1,19 @@
-import { 
-  View, 
+import {
+  View,
   Text,
-  TouchableOpacity, 
-  StatusBar, 
-  Dimensions, 
-  Animated 
+  TouchableOpacity,
+  StatusBar,
+  Dimensions,
 } from 'react-native';
+import Animated, {
+  useSharedValue,
+  useAnimatedScrollHandler,
+  useAnimatedStyle,
+  interpolate,
+  Extrapolation,
+} from 'react-native-reanimated';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
-import React, { useLayoutEffect, useRef } from 'react';
+import React, { useLayoutEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
@@ -30,7 +36,34 @@ const ItemScreen = ({ route }) => {
   const { darkMode, largeText } = useTheme();
   const contentBgColor = darkMode ? 'bg-neutral-900' : 'bg-neutral-100';
 
-  const scrollY = useRef(new Animated.Value(0)).current;
+  const scrollY = useSharedValue(0);
+  const maxScrollY = useSharedValue(0);
+
+  const scrollHandler = useAnimatedScrollHandler({
+    onScroll: (e) => {
+      'worklet';
+      const y = e.contentOffset.y;
+      scrollY.value = y;
+      if (y > maxScrollY.value) {
+        maxScrollY.value = y;
+      }
+    },
+  });
+
+  const animatedImageStyle = useAnimatedStyle(() => {
+    'worklet';
+
+    // Only zoom/stretch when pulling the ScrollView DOWN (negative scroll).
+    // When scrolling UP (content moving up, y >= 0), keep the image at its base size.
+    const scale = interpolate(
+      scrollY.value,
+      [-300, 0],   // pull a bit further for stronger effect
+      [2.5, 1],    // increase max zoom so background stays covered
+      Extrapolation.CLAMP
+    );
+
+    return { transform: [{ scale }] };
+  });
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -38,30 +71,23 @@ const ItemScreen = ({ route }) => {
     });
   }, []);
 
-  const imageScale = scrollY.interpolate({
-    inputRange: [-200, 0], 
-    outputRange: [1.5, 1], 
-    extrapolateRight: 'clamp',
-  });
-
   return (
     <View style={{ flex: 1 }}>
       <StatusBar barStyle="light-content" translucent backgroundColor="transparent" />
 
-      {/* 1. IMAGE: Absolutely positioned and Animated.Image */}
+      {/* 1. IMAGE: scale driven by scroll via Reanimated */}
       <View style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, overflow: 'hidden' }}>
-        <Animated.Image 
+        <Animated.Image
           source={{
             uri: data?.photo?.images?.large?.url
               ? data?.photo?.images?.large?.url
               : 'https://static.thenounproject.com/png/2932881-200.png',
           }}
-          style={{ 
-            width: '100%', 
-            height: IMAGE_HEIGHT,
-            transform: [{ scale: imageScale }],
-          }}
-          className="object-cover"
+          resizeMode="cover"
+          style={[
+            { width: '100%', height: IMAGE_HEIGHT },
+            animatedImageStyle,
+          ]}
         />
       </View>
 
@@ -84,16 +110,14 @@ const ItemScreen = ({ route }) => {
         />
       </SafeAreaView>
 
-      {/* 3. SCROLLVIEW: Enabled for bounce/overscroll */}
-      <Animated.ScrollView 
+      {/* 3. SCROLLVIEW: scroll position drives image scale (Reanimated) */}
+      <Animated.ScrollView
+        style={{ flex: 1 }}
         contentContainerStyle={{ paddingBottom: insets.bottom }}
-        bounces={true} // <-- Enables pull-down effect on iOS
-        overScrollMode={'always'} // <-- Enables pull-down effect on Android
-        onScroll={Animated.event(
-            [{ nativeEvent: { contentOffset: { y: scrollY } } }],
-            { useNativeDriver: true } 
-        )}
-        scrollEventThrottle={16} 
+        bounces={true}
+        overScrollMode="always"
+        onScroll={scrollHandler}
+        scrollEventThrottle={16}
       >
         {/* 4. CONTENT CONTAINER */}
         <View
@@ -123,7 +147,7 @@ const ItemScreen = ({ route }) => {
           <View className="mt-4 flex-row items-center justify-between px-4">
             {data?.rating && (
               <View className="flex-row items-center gap-2">
-                <View className="w-12 h-12 rounded-2xl border border-1 border-green-800 items-center justify-center shadow-md">
+                <View className="w-12 h-12 rounded-2xl border border-1 bxorder-green-800 items-center justify-center shadow-md">
                   <FontAwesome name="star" size={24} color="#2E7D32" />
                 </View>
                 <View>
