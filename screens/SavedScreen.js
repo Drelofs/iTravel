@@ -42,7 +42,7 @@ const SavedScreen = () => {
           </Text>
         </View>
       ) : (
-        <ScrollView className="px-4">
+        <ScrollView className="px-4 mb-8">
           {savedLocations.map((loc, i) => (
             <ItemCardContainer
               key={i}

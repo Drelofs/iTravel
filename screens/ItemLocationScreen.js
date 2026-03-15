@@ -4,6 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import MapView, { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
 import { useNavigation, useRoute } from '@react-navigation/native';
+import BackButton from '../components/buttons/BackButton';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import { useTheme } from '../contexts/ThemeContext';
 
@@ -98,15 +99,22 @@ const ItemLocationScreen = () => {
           <Marker
             coordinate={poiLocation}
             title={poiName}
+            pinColor="#2E7D32"
           />
         )}
       </MapView>
       <SafeAreaView style={styles.headerContainer}>
-        <TouchableOpacity onPress={() => navigation.goBack()} className={`w-10 h-10 rounded-md items-center justify-center ${darkMode? "bg-neutral-900" : "bg-white"}`}>
-          <FontAwesome5 name="chevron-left" size={24} color="#D81B60" />
+        <TouchableOpacity>
+          <BackButton
+            onPress={() => navigation.goBack()}
+            icon="chevron-left"
+            size={48}
+            iconSize={24}
+            darkMode={darkMode}
+          />
         </TouchableOpacity>
-        <View className={`flex-row justify-center items-center ${darkMode? "bg-neutral-900" : "bg-white"} p-2 rounded-md h-[36px]`}>
-          <Text className={`${largeText ? 'text-2xl' : 'text-lg'} black text-pink-600 font-semibold`}>
+        <View className={`flex-row justify-center items-center ${darkMode? "bg-neutral-900" : "bg-white"} p-4 rounded-3xl`}>
+          <Text className={`${largeText ? 'text-3xl' : 'text-xl'} black text-green-800 font-semibold`}>
             {poiName?.length >28  ? `${poiName.slice(0,28)}...` : poiName}
           </Text>
         </View>
@@ -125,7 +133,7 @@ const styles = StyleSheet.create({
   },
   headerContainer: {
     position: 'absolute',
-    top: 40,
+    top: 8,
     left: 20,
     zIndex: 100,
     flex: 1,

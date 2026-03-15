@@ -115,9 +115,10 @@ const MapScreen = () => {
             <Marker
                 key={i}
                 coordinate={{
-                latitude: Number(place.latitude),
-                longitude: Number(place.longitude),
+                  latitude: Number(place.latitude),
+                  longitude: Number(place.longitude),
                 }}
+                pinColor="#2E7D32"
             >
                 <Callout
                 tooltip={true} // default styling, you can set true for full customization
@@ -130,7 +131,7 @@ const MapScreen = () => {
                     </Text>
                     <TouchableOpacity
                     style={{
-                        backgroundColor: '#D81B60',
+                        backgroundColor: '#2E7D32',
                         paddingVertical: 6,
                         paddingHorizontal: 12,
                         borderRadius: 5,

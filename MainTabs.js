@@ -30,7 +30,7 @@ export default function MainTabs() {
 
           return <Ionicons name={iconName} size={size} color={color} />;
         },
-        tabBarActiveTintColor: '#D81B60',
+        tabBarActiveTintColor: '#2E7D32',
         tabBarInactiveTintColor: 'gray',
         tabBarStyle: {
           backgroundColor: darkMode ? '#000' : '#fff', // dark bg or white bg
