@@ -22,13 +22,13 @@ const SavedScreen = () => {
   );
 
   return (
-    <SafeAreaView className={`flex-1 ${darkMode ? "bg-neutral-900" : "bg-neutral-100"} relative`}>
-      <View className="flex-row justify-center items-center mt-4">
-        <Text className="text-3xl font-semibold text-pink-600">
+    <SafeAreaView className={`${darkMode ? "bg-neutral-900" : "bg-neutral-100"} relative`}>
+      <View className="flex-row justify-center items-center my-4">
+        <Text className="text-3xl font-semibold text-green-800">
           Saved
         </Text>
       </View>
-      <ScrollView className="p-4">
+      <ScrollView className="px-4">
         {savedLocations.length === 0 ? (
           <View className="h-80 w-full flex-1 items-center justify-center">
             <Text className={`${darkMode ? "text-slate-100" : "text-gray-900"} text-xl`}>You haven't saved any locations yet.</Text>
@@ -41,6 +41,21 @@ const SavedScreen = () => {
               title={loc?.name}
               location={loc?.location_string}
               data={loc}
+              onSavedChange={(isSavedNow, location) => {
+                // If an item is unsaved from the Saved screen, immediately
+                // remove it from the in-memory list so the UI refreshes.
+                if (!isSavedNow) {
+                  setSavedLocations(prev =>
+                    prev.filter(
+                      l =>
+                        !(
+                          l.name === location.name &&
+                          l.location_string === location.location_string
+                        )
+                    )
+                  );
+                }
+              }}
             />
           ))
         )}

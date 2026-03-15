@@ -264,26 +264,6 @@ const ItemScreen = ({ route }) => {
             )}
           </View>
 
-          {/* SHOW LOCATION BUTTON */}
-          {/* <View className="mt-4 px-4 py-4 rounded-lg bg-pink-600 items-center justify-center mb-12 mx-4">
-            <TouchableOpacity
-              className="w-full items-center"
-              onPress={() =>
-                navigation.navigate('ItemLocationScreen', {
-                  poiLocation: {
-                    latitude: Number(data.latitude),
-                    longitude: Number(data.longitude),
-                  },
-                  poiName: data.name,
-                })
-              }
-            >
-              <Text className={`${largeText ? 'text-3xl' : 'text-xl'} font-semibold tracking-wider text-gray-100`}>
-                Show Location on Map
-              </Text>
-            </TouchableOpacity>
-          </View> */}
-
           {/* Booking Button */}
           <View className="mt-4 px-4 py-4 rounded-3xl bg-green-800 items-center justify-center mb-12 mx-4">
             <TouchableOpacity className="flex flex-row w-full items-cente justify-center gap-x-3" onPress={() => Linking.openURL(data?.booking.url)}>

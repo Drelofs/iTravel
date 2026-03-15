@@ -9,6 +9,7 @@ const SaveButton = ({
   iconSize = 24,
   darkMode = false,
   color,
+  onSavedChange, // optional callback: (isSavedNow, locationData) => void
 }) => {
   const [isSaved, setIsSaved] = useState(false);
 
@@ -31,27 +32,72 @@ const SaveButton = ({
     checkIfSaved();
   }, [locationData]);
 
-  // Toggle save/unsave
+  // Internal helpers for save/unsave
+  const performUnsave = async () => {
+    const existing = await AsyncStorage.getItem('savedLocations');
+    const saved = existing ? JSON.parse(existing) : [];
+
+    const index = saved.findIndex(
+      loc =>
+        loc.name === locationData.name &&
+        loc.location_string === locationData.location_string
+    );
+
+    if (index === -1) return;
+
+    const updated = [...saved];
+    updated.splice(index, 1);
+    await AsyncStorage.setItem('savedLocations', JSON.stringify(updated));
+    setIsSaved(false);
+    if (onSavedChange) {
+      onSavedChange(false, locationData);
+    }
+  };
+
+  const performSave = async () => {
+    const existing = await AsyncStorage.getItem('savedLocations');
+    const saved = existing ? JSON.parse(existing) : [];
+
+    const alreadySaved = saved.some(
+      loc =>
+        loc.name === locationData.name &&
+        loc.location_string === locationData.location_string
+    );
+
+    if (alreadySaved) return;
+
+    const updated = [...saved, locationData];
+    await AsyncStorage.setItem('savedLocations', JSON.stringify(updated));
+    setIsSaved(true);
+    if (onSavedChange) {
+      onSavedChange(true, locationData);
+    }
+  };
+
+  // Toggle save/unsave with confirmation on unsave
   const toggleSave = async () => {
     try {
-      const existing = await AsyncStorage.getItem('savedLocations');
-      const saved = existing ? JSON.parse(existing) : [];
-
-      const index = saved.findIndex(
-        loc =>
-          loc.name === locationData.name &&
-          loc.location_string === locationData.location_string
-      );
-
-      if (index !== -1) {
-        const updated = [...saved];
-        updated.splice(index, 1);
-        await AsyncStorage.setItem('savedLocations', JSON.stringify(updated));
-        setIsSaved(false);
+      if (isSaved) {
+        Alert.alert(
+          'Remove saved place',
+          'Are you sure you want to remove this from your saved list?',
+          [
+            { text: 'Cancel', style: 'cancel' },
+            {
+              text: 'Remove',
+              style: 'destructive',
+              onPress: () => {
+                // run asynchronously, but we don't need to await here
+                performUnsave().catch(err => {
+                  console.error('Failed to remove saved location:', err);
+                  Alert.alert('Something went wrong.');
+                });
+              },
+            },
+          ]
+        );
       } else {
-        const updated = [...saved, locationData];
-        await AsyncStorage.setItem('savedLocations', JSON.stringify(updated));
-        setIsSaved(true);
+        await performSave();
       }
     } catch (e) {
       console.error('Failed to toggle save location:', e);
