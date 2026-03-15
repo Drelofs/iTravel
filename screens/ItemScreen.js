@@ -21,6 +21,7 @@ import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { useTheme } from '../contexts/ThemeContext';
 import BackButton from '../components/buttons/BackButton';
 import SaveButton from '../components/buttons/SaveButton';
+import { Linking } from 'react-native';
 
 const { height: SCREEN_HEIGHT } = Dimensions.get('window');
 const IMAGE_HEIGHT = SCREEN_HEIGHT * 0.5;
@@ -70,6 +71,8 @@ const ItemScreen = ({ route }) => {
       headerShown: false,
     });
   }, []);
+
+  // console.log(data);
 
   return (
     <View style={{ flex: 1 }}>
@@ -138,7 +141,7 @@ const ItemScreen = ({ route }) => {
             <View className="flex-row items-center gap-2 mt-2">
               <FontAwesome name="map-marker" size={25} color="#2E7D32" />
               <Text className={`text-gray-500 ${largeText ? 'text-2xl' : 'text-lg'} font-bold`}>
-                {data?.address_obj?.city}
+                {data?.address_obj?.city} - {data?.address_obj?.country}
               </Text>
             </View>
           </View>
@@ -147,56 +150,70 @@ const ItemScreen = ({ route }) => {
           <View className="mt-4 flex-row items-center justify-between px-4">
             {data?.rating && (
               <View className="flex-row items-center gap-2">
-                <View className="w-12 h-12 rounded-2xl border border-1 bxorder-green-800 items-center justify-center shadow-md">
+                <View className="w-12 h-12 rounded-2xl border border-1 border-green-800 items-center justify-center shadow-md">
                   <FontAwesome name="star" size={24} color="#2E7D32" />
                 </View>
                 <View>
-                  <Text className={`${darkMode ? 'text-slate-100' : 'text-gray-700'}`}>Ratings</Text>
-                  <Text className={`font-bold ${darkMode ? 'text-slate-100' : 'text-gray-900'}`}>{data?.rating}/5</Text>
+                  <Text className={`${darkMode ? 'text-slate-100' : 'text-gray-700'} font-bold`}>Ratings</Text>
+                  <Text className={`${darkMode ? 'text-slate-100' : 'text-gray-900'}`}>{data?.rating}/5</Text>
                 </View>
               </View>
             )}
 
-            {data?.price_level && (
+            {data?.distance && (
               <View className="flex-row items-center gap-2">
-                <View className="w-12 h-12 rounded-2xl bg-pink-300 items-center justify-center shadow-md">
-                  <MaterialIcons name="attach-money" size={24} color="#D81B60" />
+                <View className="w-12 h-12 rounded-2xl border border-1 border-green-800 items-center justify-center shadow-md">
+                  <FontAwesome name="location-arrow" size={24} color="#2E7D32" />
                 </View>
                 <View>
-                  <Text className={`${darkMode ? 'text-slate-100' : 'text-gray-900'}`}>{data?.price_level}</Text>
-                  <Text className={`${darkMode ? 'text-slate-100' : 'text-gray-900'}`}>Price Level</Text>
+                  <Text className={`${darkMode ? 'text-slate-100' : 'text-gray-900'} font-bold`}>Distance</Text>
+                  <Text className={`${darkMode ? 'text-slate-100' : 'text-gray-900'}`}>{data?.distance_string}</Text>
                 </View>
               </View>
             )}
 
-            {data?.bearing && (
-              <View className="flex-row items-center gap-2">
-                <View className="w-12 h-12 rounded-2xl bg-pink-300 items-center justify-center shadow-md">
-                  <FontAwesome5 name="map-signs" size={24} color="#D81B60" />
-                </View>
-                <View>
-                  <Text className={`${darkMode ? 'text-slate-100' : 'text-gray-900'} capitalize`}>{data?.bearing}</Text>
-                  <Text className={`${darkMode ? 'text-slate-100' : 'text-gray-900'}`}>Bearing</Text>
-                </View>
+            {data?.latitude && data?.longitude && (
+              <View>
+                <TouchableOpacity 
+                  className="flex-row items-center gap-2"
+                  onPress={() =>
+                    navigation.navigate('ItemLocationScreen', {
+                      poiLocation: {
+                        latitude: Number(data.latitude),
+                        longitude: Number(data.longitude),
+                      },
+                      poiName: data.name,
+                    })
+                }>
+                  <View className="w-12 h-12 rounded-2xl border border-1 border-green-800 items-center justify-center shadow-md">
+                    <FontAwesome name="map-marker" size={24} color="#2E7D32" />
+                  </View>
+                  <View>
+                    <Text className={`text-green-800 font-bold`}>Show{'\n'}on Map</Text>
+                  </View>
+                </TouchableOpacity>
               </View>
             )}
           </View>
 
           {/* DESCRIPTION */}
           {data?.description && (
-            <Text
-              className={`my-4 tracking-wide ${largeText ? 'text-2xl' : 'text-md'} ${
-                darkMode ? 'text-slate-100' : 'text-gray-900'
-              } px-4`}
-            >
-              {data?.description}
-            </Text>
+            <>
+              <Text className="text-2xl font-bold font-chillaxsemibold px-4 mt-4">Description</Text>
+              <Text
+                className={`mb-4 tracking-wide ${largeText ? 'text-2xl' : 'text-md'} ${
+                  darkMode ? 'text-slate-100' : 'text-gray-900'
+                } px-4`}
+              >
+                {data?.description}
+              </Text>
+            </>
           )}
 
           {/* CUISINE TAGS */}
           <View className="flex-row gap-2 items-center justify-start flex-wrap mt-4 px-4">
             {data?.cuisine?.map((n) => (
-              <TouchableOpacity key={n.key} className="px-2 py-1 rounded-md bg-pink-600">
+              <TouchableOpacity key={n.key} className="px-2 py-1 rounded-md bg-green-800">
                 <Text className={`text-slate-100 ${largeText ? 'text-2xl' : 'text-md'}`}>{n.name}</Text>
               </TouchableOpacity>
             ))}
@@ -204,28 +221,43 @@ const ItemScreen = ({ route }) => {
 
           {/* CONTACT INFO */}
           <View
-            className={`gap-y-2 mt-4 ${darkMode ? 'bg-neutral-800' : 'bg-gray-200'} rounded-2xl mx-4 px-4 py-4 overflow-hidden`}
+            className={`gap-y-3 px-4 pt-4 overflow-hidden`}
           >
-            {data?.phone && (
+            {(data?.phone || data?.email || data?.address) && (
               <View className="items-center flex-row gap-x-8">
-                <FontAwesome name="phone" size={24} color="#D81B60" />
-                <Text className={`${largeText ? 'text-xl' : 'text-sm'} ${darkMode ? 'text-slate-100' : 'text-gray-900'}`}>
-                  {data?.phone}
+                <Text
+                  className={`tracking-wide font-bold font-chillaxsemibold text-2xl ${
+                    darkMode ? 'text-slate-100' : 'text-gray-900'
+                  }`}
+                >
+                  Contact Info
                 </Text>
               </View>
             )}
+            {data?.phone && (
+              <View className="items-center flex-row">
+                <TouchableOpacity className="flex-row items-center gap-x-8" onPress={() => Linking.openURL(`tel:${data?.phone}`)}>
+                  <MaterialIcons className="w-8" name="phone" size={24} color="#2E7D32" />
+                  <Text className={`text-green-800 underline ${largeText ? 'text-xl' : 'text-lg'} ${darkMode ? 'text-slate-100' : 'text-gray-900'}`}>
+                    {data?.phone}
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            )}
             {data?.email && (
-              <View className="items-center flex-row gap-x-8">
-                <FontAwesome name="envelope" size={24} color="#D81B60" />
-                <Text className={`${largeText ? 'text-xl' : 'text-sm'} ${darkMode ? 'text-slate-100' : 'text-gray-900'}`}>
-                  {data?.email}
-                </Text>
+              <View className="items-center flex-row">
+                <TouchableOpacity className="flex-row items-center gap-x-8" onPress={() => Linking.openURL(`mailto:${data?.email}`)}>
+                  <MaterialIcons className="w-8" name="email" size={24} color="#2E7D32" />
+                  <Text className={`text-green-800 underline ${largeText ? 'text-xl' : 'text-lg'} ${darkMode ? 'text-slate-100' : 'text-gray-900'}`}>
+                    {data?.email}
+                  </Text>
+                </TouchableOpacity>
               </View>
             )}
             {data?.address && (
               <View className="items-center flex-row gap-x-8">
-                <FontAwesome name="map-pin" size={24} color="#D81B60" />
-                <Text className={`${largeText ? 'text-xl' : 'text-sm'} ${darkMode ? 'text-slate-100' : 'text-gray-900'}`}>
+                <MaterialIcons className="w-8" name="location-pin" size={24} color="#2E7D32" />
+                <Text className={`${largeText ? 'text-xl' : 'text-lg'} ${darkMode ? 'text-slate-100' : 'text-gray-900'}`}>
                   {data?.address}
                 </Text>
               </View>
@@ -233,7 +265,7 @@ const ItemScreen = ({ route }) => {
           </View>
 
           {/* SHOW LOCATION BUTTON */}
-          <View className="mt-4 px-4 py-4 rounded-lg bg-pink-600 items-center justify-center mb-12 mx-4">
+          {/* <View className="mt-4 px-4 py-4 rounded-lg bg-pink-600 items-center justify-center mb-12 mx-4">
             <TouchableOpacity
               className="w-full items-center"
               onPress={() =>
@@ -250,7 +282,18 @@ const ItemScreen = ({ route }) => {
                 Show Location on Map
               </Text>
             </TouchableOpacity>
+          </View> */}
+
+          {/* Booking Button */}
+          <View className="mt-4 px-4 py-4 rounded-3xl bg-green-800 items-center justify-center mb-12 mx-4">
+            <TouchableOpacity className="flex flex-row w-full items-cente justify-center gap-x-3" onPress={() => Linking.openURL(data?.booking.url)}>
+              <Text className={`text-slate-100 ${largeText ? 'text-2xl' : 'text-xl'} font-bold`}>
+                Book now
+              </Text>
+              <MaterialIcons className="w-8" name="open-in-new" size={24} color="#ffffff"/>
+            </TouchableOpacity>
           </View>
+
         </View>
       </Animated.ScrollView>
     </View>
