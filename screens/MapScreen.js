@@ -114,6 +114,7 @@ const MapScreen = () => {
         onRegionChangeComplete={setRegion}
         showsUserLocation={true}
         onMapReady={() => setMapReady(true)}
+        userInterfaceStyle={darkMode ? 'dark' : 'light'}
       >
         {places?.map((place, i) => (
           place.latitude &&

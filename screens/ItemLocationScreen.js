@@ -94,6 +94,7 @@ const ItemLocationScreen = () => {
           longitudeDelta: 0.05,
         }}
         showsUserLocation={true}
+        userInterfaceStyle={darkMode ? 'dark' : 'light'}
       >
         {poiLocation && (
           <Marker

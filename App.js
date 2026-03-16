@@ -7,6 +7,7 @@ import MainTabs from './MainTabs';
 import ItemScreen from './screens/ItemScreen';
 import MapScreen from './screens/MapScreen';
 import ItemLocationScreen from './screens/ItemLocationScreen';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { ThemeProvider, useTheme } from './contexts/ThemeContext';
 import { View, StatusBar } from 'react-native';
 import './global.css';
@@ -54,8 +55,10 @@ function AppWrapper() {
 
 export default function App() {
   return (
-    <ThemeProvider>
-      <AppWrapper />
-    </ThemeProvider>
+    <SafeAreaProvider>
+      <ThemeProvider>
+        <AppWrapper />
+      </ThemeProvider>
+    </SafeAreaProvider>
   );
 }

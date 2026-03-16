@@ -27,7 +27,7 @@ const MenuContainer = ({ title, imageSrc, iconName, type, setType }) => {
 
   // ✅ Background logic: pink when active, grey when inactive
   const backgroundColor = isSelected
-    ? 'bg-pink-600'
+    ? 'bg-green-800'
     : darkMode
       ? 'bg-neutral-700'
       : 'bg-gray-200';
