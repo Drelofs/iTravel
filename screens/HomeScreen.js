@@ -72,19 +72,21 @@ const HomeScreen = () => {
     <>
       {/* Header */}
       <View className="py-2 mt-2">
-        <Text className="font-chillaxsemibold font-bold text-gray-800 text-4xl w-2/3">
+        <Text className={`font-chillaxsemibold font-bold ${darkMode ? 'text-slate-100' : 'text-gray-800'} text-4xl w-2/3`}>
           Find your favorite place
         </Text>
       </View>
 
-      {/* Search */}
-      <SearchAutocomplete
-        setBl_lat={setBl_lat}
-        setBl_lng={setBl_lng}
-        setTr_lat={setTr_lat}
-        setTr_lng={setTr_lng}
-        setHasSearched={setHasSearched}
-      />
+      {/* Search: high z-index so dropdown appears above list */}
+      <View style={{ zIndex: 1000 }}>
+        <SearchAutocomplete
+          setBl_lat={setBl_lat}
+          setBl_lng={setBl_lng}
+          setTr_lat={setTr_lat}
+          setTr_lng={setTr_lng}
+          setHasSearched={setHasSearched}
+        />
+      </View>
 
       {/* Menu: show when we have recommendations (near you) or after search */}
       {(hasSearched || !recommendationsLoading) && (
@@ -112,9 +114,11 @@ const HomeScreen = () => {
               setType={setType}
             />
           </View>
-          <View className="pt-4 pb-2">
-            <Text className="font-chillaxsemibold font-bold text-gray-800 text-3xl w-2/3">Nearby locations</Text>
-          </View>
+          {!hasSearched && (
+            <View className="pt-4 pb-2">
+              <Text className={`font-chillaxsemibold font-bold ${darkMode ? 'text-slate-100' : 'text-gray-800'} text-3xl w-2/3`}>Nearby locations</Text>
+            </View>
+          )}
         </>
       )}
 
@@ -128,7 +132,10 @@ const HomeScreen = () => {
   );
 
   return (
-    <SafeAreaView className="flex-1" edges={['top']}>
+    <SafeAreaView
+      className={`flex-1 ${darkMode ? 'bg-neutral-900' : 'bg-neutral-100'}`}
+      edges={['top']}
+    >
       <FlatList
         data={
           isLoading
