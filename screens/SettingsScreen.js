@@ -9,7 +9,7 @@ const SettingsScreen = () => {
   return (
     <SafeAreaView className={`flex-1 ${darkMode ? "bg-neutral-900" : "bg-neutral-100"}`}>
       <View className="flex-row justify-center items-center mt-4">
-        <Text className="text-3xl font-semibold text-pink-600">
+        <Text className="text-3xl font-semibold text-green-800">
           Settings
         </Text>
       </View>
@@ -20,7 +20,7 @@ const SettingsScreen = () => {
           <Switch
             value={darkMode}
             onValueChange={toggleTheme}
-            trackColor={{ false: '', true: '#D81B60' }}
+            trackColor={{ false: '', true: '#2E7D32' }}
           />
         </View>
       </View>
@@ -32,7 +32,7 @@ const SettingsScreen = () => {
           <Switch
             value={largeText}
             onValueChange={toggleLargeText}
-            trackColor={{ false: '', true: '#D81B60' }}
+            trackColor={{ false: '', true: '#2E7D32' }}
           />
         </View>
       </View>

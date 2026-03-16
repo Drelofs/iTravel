@@ -134,7 +134,7 @@ const ItemScreen = ({ route }) => {
           
           {/* NAME & LOCATION */}
           <View className="mt-2 px-4">
-            <Text className={`font-chillaxsemibold text-gray-900 ${largeText ? 'text-6xl' : 'text-4xl'} font-bold`}>
+            <Text className={`font-chillaxsemibold ${darkMode ? 'text-slate-100' : 'text-gray-900'} ${largeText ? 'text-6xl' : 'text-4xl'} font-bold`}>
               {data?.name}
             </Text>
 
