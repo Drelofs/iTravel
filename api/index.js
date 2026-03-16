@@ -12,7 +12,7 @@ export const getPlacesData = async (bl_lat, bl_lng, tr_lat, tr_lng, type) => {
                     tr_latitude: tr_lat ? tr_lat : '52.12853683254968',
                     bl_longitude: bl_lng ? bl_lng : '4.196710389479046',
                     tr_longitude: tr_lng ? tr_lng : '4.42302629668355',
-                    limit: '50',
+                    limit: '30',
                     currency: 'EUR',
                     lunit: 'km',
                     lang: 'en_US'
